@@ -71,11 +71,6 @@ namespace ImGuiSet
 
         //各シーンのステージ情報が入ってるファイルのパス設定
         stageInfoFilePath_[SCENE_ID_TITLE] = "Stage/Title/StageInformation/TitleScene1.txt";
-        stageInfoFilePath_[SCENE_ID_USER_SELECT] = "Stage/UserSelect/StageInformation/UserSelectScene1.txt";
-        stageInfoFilePath_[SCENE_ID_TUTORIAL1] = "Stage/Tutorial/StageInformation/TutorialStage1.txt";
-        stageInfoFilePath_[SCENE_ID_TUTORIAL2] = "Stage/Tutorial/StageInformation/TutorialStage2.txt";
-        stageInfoFilePath_[SCENE_ID_HOME] = "Stage/Home/StageInformation/HomeStage.txt";
-        stageInfoFilePath_[SCENE_ID_WORLD1] = "Stage/World/World1/StageInformation/WorldStage1.txt";
     }
 
     //描画

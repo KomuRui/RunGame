@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "Light.h"
 #include "../Scene/TitleScene/TitleScene.h"
+#include "../Scene/PlayScene/PlayScene.h"
 #include "../Manager/GameManager/GameManager.h"
 #include "../Manager/CoinManager/CoinManager.h"
 #include "../Manager/EffectManager/PlayerEffectManager/PlayerEffectManager.h"
@@ -58,7 +59,8 @@ void SceneManager::Update()
 		//Ÿ‚ÌƒV[ƒ“‚ğì¬
 		switch (nextSceneID_)
 		{
-		case SCENE_ID_TITLE:				 Instantiate<TitleScene>(this); break;
+		case SCENE_ID_TITLE:     Instantiate<TitleScene>(this); break;
+		case SCENE_ID_PLAY:      Instantiate<PlayScene>(this); break;
 		}
 		currentSceneID_ = nextSceneID_;
 

@@ -14,7 +14,6 @@
 #include "Audio.h"
 #include "Light.h"
 #include "../Manager/GameManager/GameManager.h"
-#include "../Manager/LifeManager/LifeManager.h"
 #include "../Manager/CoinManager/CoinManager.h"
 #include "ImGuiSet.h"
 

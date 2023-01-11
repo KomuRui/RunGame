@@ -53,11 +53,7 @@ namespace GameManager
 
 		//変数初期化
 		fadeImage_[SCENE_ID_TITLE] = "Image/Fade/Tutorial1Fade.png";
-		fadeImage_[SCENE_ID_USER_SELECT] = "Image/Fade/Tutorial2Fade.png";
-		fadeImage_[SCENE_ID_TUTORIAL1] = "Image/Fade/Tutorial1Fade.png";
-		fadeImage_[SCENE_ID_TUTORIAL2] = "Image/Fade/Tutorial2Fade.png";
-		fadeImage_[SCENE_ID_HOME] = "Image/Fade/HomeFade.png";
-		fadeImage_[SCENE_ID_WORLD1] = "Image/Fade/World1Fade.png";
+		fadeImage_[SCENE_ID_PLAY] = "Image/Fade/Tutorial1Fade.png";
 		ARGUMENT_INITIALIZE(FadeStatus_, NOOP);
 		ARGUMENT_INITIALIZE(pNowPlayer_, nullptr);
 		ARGUMENT_INITIALIZE(pNowStage_, nullptr);
@@ -84,7 +80,7 @@ namespace GameManager
 	void Draw()
 	{
 		//もしPlayシーンなら
-		if (pSceneManager_->GetSceneId() != SCENE_ID_TITLE && pSceneManager_->GetSceneId() != SCENE_ID_USER_SELECT)
+		if (pSceneManager_->GetSceneId() != SCENE_ID_TITLE)
 		{
 			//コインの取得数の表示
 			CoinManager::Draw();

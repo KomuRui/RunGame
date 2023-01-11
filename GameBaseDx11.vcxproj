@@ -184,6 +184,8 @@
     <ClCompile Include="OtherObject\TitleModelPlayer.cpp" />
     <ClCompile Include="OtherObject\TitleModelPrincess.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Scene\PlayScene\PlayScene.cpp" />
+    <ClCompile Include="Scene\PlayScene\PlayStage.cpp" />
     <ClCompile Include="Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="State\EnemyState\EnemyDieState.cpp" />
@@ -262,6 +264,8 @@
     <ClInclude Include="OtherObject\TitleModelPlayer.h" />
     <ClInclude Include="OtherObject\TitleModelPrincess.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Scene\PlayScene\PlayScene.h" />
+    <ClInclude Include="Scene\PlayScene\PlayStage.h" />
     <ClInclude Include="Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="State\EnemyState\EnemyDieState.h" />

@@ -87,6 +87,9 @@
     <Filter Include="Block">
       <UniqueIdentifier>{cb5759fb-4a26-46a3-abe4-5e7fc45632f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\PlayScene">
+      <UniqueIdentifier>{1c9112b5-2c26-4f05-a094-e7a07f7afe1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -304,6 +307,12 @@
     </ClCompile>
     <ClCompile Include="Block\TransparentBlock.cpp">
       <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\PlayScene\PlayScene.cpp">
+      <Filter>Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\PlayScene\PlayStage.cpp">
+      <Filter>Scene\PlayScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -528,6 +537,12 @@
     </ClInclude>
     <ClInclude Include="Block\TransparentBlock.h">
       <Filter>Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\PlayScene\PlayScene.h">
+      <Filter>Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\PlayScene\PlayStage.h">
+      <Filter>Scene\PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

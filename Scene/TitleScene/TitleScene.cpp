@@ -81,6 +81,5 @@ void TitleScene::Release()
 void TitleScene::TimeMethod()
 {
 	//ƒ[ƒh‚ÌŽž‚Ì•`‰æ‚ðÝ’è‚µ‚È‚¢
-	GameManager::GetpSceneManager()->SetLoadDrawFlag(false);
-	GameManager::GetpSceneManager()->ChangeScene(SCENE_ID_USER_SELECT);
+	GameManager::GetpSceneManager()->ChangeScene(SCENE_ID_PLAY);
 }
