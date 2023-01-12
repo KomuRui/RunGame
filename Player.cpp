@@ -126,9 +126,6 @@ void Player::Initialize()
     pstage_ = GameManager::GetpStage();
     hGroundModel_ = pstage_->GethModel();
 
-    //自身のポジションセット
-    transform_.position_ = pstage_->GetPos();
-
     //レイを飛ばして自身の軸を設定する
     RayCastData dataNormal;
     dataNormal.start = transform_.position_;      
@@ -232,7 +229,6 @@ void Player::CameraBehavior()
         XMVECTOR vPos = XMLoadFloat3(&transform_.position_);     //transform_.position_のVector型
         XMVECTOR vCam = camVec_[camStatus_];                     //Playerからカメラのベクトルを作成
         vCam = XMVector3TransformCoord(vCam, camMat_);            //vCamを回す
-        vCam = XMVector3TransformCoord(vCam, XMMatrixRotationAxis(vNormal_, camAngle_));
 
         vPos += vCam;                    //PlayerのPosにPlayerからカメラのベクトルをたす
         XMStoreFloat3(&camPos, vPos);    //camPosにvPosをXMFLOAT3に変えていれる
@@ -241,10 +237,9 @@ void Player::CameraBehavior()
         XMFLOAT3 UpDirection = { XMVectorGetX(-vNormal_), XMVectorGetY(-vNormal_), XMVectorGetZ(-vNormal_) };
 
         XMStoreFloat3(&camTar, XMVectorLerp(XMLoadFloat3(&camTar), XMLoadFloat3(&transform_.position_), CAMERA_INTERPOLATION_FACTOR));
+        camTar = Float3Add(transform_.position_,VectorToFloat3(vNormal_ * 3));
 
-        //flagがtrueなら位置動かす
-        if (camPosFlag_)
-            XMStoreFloat3(&campos, XMVectorLerp(XMLoadFloat3(&campos), XMLoadFloat3(&camPos), CAMERA_INTERPOLATION_FACTOR));
+        campos = camPos;
 
         //カメラのいろいろ設定
         Camera::SetUpDirection(vNormal_);

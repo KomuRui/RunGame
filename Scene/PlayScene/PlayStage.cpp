@@ -9,10 +9,10 @@ PlayStage::PlayStage(GameObject* parent)
 	:Stage(parent, "PlayStage")
 {
 	//画角
-	fieldAngle_ = 100;
+	fieldAngle_ = 45;
 
 	//ライトの強さ
-	lightIntensity_ = 3;
+	lightIntensity_ = 4;
 }
 
 //初期化
@@ -27,11 +27,13 @@ void PlayStage::Initialize()
 
 	/////////////////////モデルデータのロード///////////////////////
 
-	hModel_[Base] = Model::Load("Stage/Tutorial/first_Stage1.fbx");
+	hModel_[Base] = Model::Load("Stage/Play/Stage.fbx");
 	hModel_[Space] = Model::Load("Stage/SpaceModel/Space.fbx");
-	hModel_[PolyModel] = Model::Load("Stage/Tutorial/first_Stage_Polygon.fbx");
+	hModel_[PolyModel] = Model::Load("Stage/Play/Stage.fbx");
 
 	///////////////////////////各種設定/////////////////////////////
+
+	Model::SetBlendMode(hModel_[Base], Direct3D::SHADER_UNLIT);
 
 	//レイの判定にBaseをいれたいのでtrueにしておく
 	Model::SetRayFlag(hModel_[Base], true);
@@ -57,11 +59,6 @@ void PlayStage::Initialize()
 	//球体使用しているのでtrue
 	circleFlag_ = true;
 
-	///////////////カメラ///////////////////
-
-	Camera::SetPosition(CAM_POS);
-	Camera::SetTarget(CAM_TAR);
-
 }
 
 //更新
@@ -77,7 +74,7 @@ void PlayStage::Draw()
 	Model::Draw(hModel_[Base]);
 
 	Model::SetTransform(hModel_[Space], tSpace_);
-	Model::Draw(hModel_[Space]);
+    Model::Draw(hModel_[Space]);
 }
 
 //解放

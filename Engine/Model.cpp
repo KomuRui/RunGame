@@ -90,7 +90,7 @@ namespace Model
 
 		if (_datas[handle]->pFbx)
 		{
-			_datas[handle]->pFbx->Draw(_datas[handle]->transform, (int)_datas[handle]->nowFrame, _datas[handle]->alpha, _datas[handle]->ambient,_datas[handle]->speculer, _datas[handle]->brightness);
+			_datas[handle]->pFbx->Draw(_datas[handle]->transform, (int)_datas[handle]->nowFrame, _datas[handle]->alpha, _datas[handle]->ambient,_datas[handle]->speculer, _datas[handle]->brightness, _datas[handle]->bMode);
 		}
 	}
 
@@ -133,6 +133,16 @@ namespace Model
 		}
 
 		_datas[handle]->brightness = Brightness;
+	}
+
+	void SetBlendMode(int handle, Direct3D::SHADER_TYPE mode)
+	{
+		if (handle < 0 || handle >= _datas.size() || _datas[handle] == nullptr)
+		{
+			return;
+		}
+
+		_datas[handle]->bMode = mode;
 	}
 
 	void SetRayFlag(int handle, bool flag)

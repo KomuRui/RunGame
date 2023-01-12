@@ -42,6 +42,9 @@ namespace Model
 		//明るさ
 		float brightness;
 
+		//モデルごとのシェーダータイプ
+		Direct3D::SHADER_TYPE bMode;
+
 		//レイの当たり判定を付けるか
 		bool rayFlag;
 
@@ -55,7 +58,8 @@ namespace Model
 
 		//初期化
 		ModelData() : pFbx(nullptr), rayFlag(false), nowFrame(ZERO), startFrame(ZERO), endFrame(ZERO), animSpeed(ZERO),
-			alpha(1), ambient(1), animFlag(false), speculer(ZERO, ZERO, ZERO, ZERO), brightness(ZERO), pBlock(nullptr)
+			alpha(1), ambient(1), animFlag(false), speculer(ZERO, ZERO, ZERO, ZERO), brightness(ZERO), pBlock(nullptr),
+			bMode(Direct3D::SHADER_3D)
 		{
 		}
 
@@ -113,6 +117,11 @@ namespace Model
 	//引数：handle	設定したいモデルの番号
 	//引数：matrix	ワールド行列
 	void SetBrightness(int handle, float Brightness = ZERO);
+
+	//ワールド行列を設定
+	//引数：handle	設定したいモデルの番号
+	//引数：matrix	ワールド行列
+	void SetBlendMode(int handle, Direct3D::SHADER_TYPE mode);
 
 	//ワールド行列を設定
 	//引数：handle	設定したいモデルの番号

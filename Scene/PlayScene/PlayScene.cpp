@@ -22,6 +22,9 @@ void PlayScene::Initialize()
 	//これから使うステージのポインタをGameManagerにセット
 	GameManager::SetpStage(Instantiate<PlayStage>(this));
 
+	//Player表示(これから使うステージのポインタをGameManagerにセット)
+	GameManager::SetpPlayer(Instantiate<Player>(this));
+
 	//フェードイン
 	GameManager::SetStatus(FADE_IN);
 }
