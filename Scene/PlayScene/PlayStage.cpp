@@ -27,9 +27,9 @@ void PlayStage::Initialize()
 
 	/////////////////////モデルデータのロード///////////////////////
 
-	hModel_[Base] = Model::Load("Stage/Play/Stage.fbx");
+	hModel_[Base] = Model::Load("Stage/Play/StraightStage.fbx");
 	hModel_[Space] = Model::Load("Stage/SpaceModel/Space.fbx");
-	hModel_[PolyModel] = Model::Load("Stage/Play/Stage.fbx");
+	hModel_[PolyModel] = Model::Load("Stage/Play/StraightStage.fbx");
 
 	///////////////////////////各種設定/////////////////////////////
 
@@ -73,8 +73,8 @@ void PlayStage::Draw()
 	Model::SetTransform(hModel_[Base], transform_);
 	Model::Draw(hModel_[Base]);
 
-	Model::SetTransform(hModel_[Space], tSpace_);
-    Model::Draw(hModel_[Space]);
+	//Model::SetTransform(hModel_[Space], tSpace_);
+    //Model::Draw(hModel_[Space]);
 }
 
 //解放

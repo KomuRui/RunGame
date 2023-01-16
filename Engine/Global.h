@@ -82,6 +82,14 @@ static XMFLOAT3 VectorToFloat3(XMVECTOR v)
 	return a;
 }
 
+//ランダム(a以上b以下のランダムの値を出す)
+static int Random(int a, int b)
+{
+	int num = (b - a) + 1;
+
+	return (rand() % num) + a;
+}
+
 //iniファイルからfloat型の変数を取ってくる
 static float GetPrivateProfilefloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTSTR lpDefault,LPCTSTR lpFileName)
 {

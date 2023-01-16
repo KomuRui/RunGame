@@ -85,7 +85,7 @@ Player::Player(GameObject* parent)
     camFlag_(true)
     
 {
-    camVec_[LONG] = XMVectorSet(ZERO, 15, -15, ZERO);
+    camVec_[LONG] = XMVectorSet(ZERO, 5, -15, ZERO);
     camVec_[SHORT] = XMVectorSet(ZERO, 4, -4, ZERO);
 }
 

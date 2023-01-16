@@ -187,6 +187,7 @@
     <ClCompile Include="Scene\PlayScene\PlayScene.cpp" />
     <ClCompile Include="Scene\PlayScene\PlayStage.cpp" />
     <ClCompile Include="Scene\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="SetObject.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="State\EnemyState\EnemyDieState.cpp" />
     <ClCompile Include="State\EnemyState\EnemyKnockBackState.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Scene\PlayScene\PlayScene.h" />
     <ClInclude Include="Scene\PlayScene\PlayStage.h" />
     <ClInclude Include="Scene\TitleScene\TitleScene.h" />
+    <ClInclude Include="SetObject.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="State\EnemyState\EnemyDieState.h" />
     <ClInclude Include="State\EnemyState\EnemyKnockBackState.h" />

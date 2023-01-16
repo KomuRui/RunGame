@@ -314,6 +314,7 @@
     <ClCompile Include="Scene\PlayScene\PlayStage.cpp">
       <Filter>Scene\PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="SetObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -544,6 +545,7 @@
     <ClInclude Include="Scene\PlayScene\PlayStage.h">
       <Filter>Scene\PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="SetObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
