@@ -34,6 +34,9 @@ public:
 	//コンストラクタ
 	Coin(GameObject* parent, std::string modelPath, std::string name);
 
+	//コンストラクタ
+	Coin(GameObject* parent);
+
 	//更新の前に一度だけ呼ばれる関数
 	void ChildStartUpdate() override;
 

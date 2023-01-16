@@ -42,6 +42,9 @@ void Enemy::ChildStartUpdate()
     //探索するときのベースポジション設定
     ARGUMENT_INITIALIZE(basePos_, transform_.position_);
 
+    //角度反転
+    angle_ += XMConvertToRadians(180);
+
     ///////////////Stageのデータ取得///////////////////
 
     //モデル番号取得
@@ -128,8 +131,8 @@ void Enemy::StageRayCast(const RayCastData& data)
         ZERO_INITIALIZE(rotationAngle_);
         ZERO_INITIALIZE(stateCount_);
 
-        //状態を回転に変更
-        ChangeEnemyState(EnemyStateList::GetEnemyRotationState());
+        //待機状態
+        ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
         //アニメーション停止
         Model::SetAnimFlag(hModel_, false);
@@ -180,14 +183,18 @@ bool Enemy::IsInSearchRange()
 //待機
 void Enemy::Wait()
 {
+    //アニメーション停止
+    Model::SetAnimFlag(hModel_, true);
+
+
     //状態が状態変化の時間より大きくなったら
     if (stateCount_ > operationTime_)
     {
         //0に初期化
         ZERO_INITIALIZE(operationTime_);
 
-        //状態をMoveに変更
-        ChangeEnemyState(EnemyStateList::GetEnemyMoveState());
+        //待機状態
+        ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
     }
 }
 
@@ -197,8 +204,8 @@ void Enemy::Move()
     //もし探索範囲にいないのなら
     if (!IsInSearchRange())
     {
-        //回転状態に
-        ChangeEnemyState(EnemyStateList::GetEnemyRotationState());
+        //待機状態
+        ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
         //回転状態の回転角度をベースポジションに動くように設定する
         ARGUMENT_INITIALIZE(rotationAngle_,dotX_);
@@ -228,8 +235,8 @@ void Enemy::Move()
         ZERO_INITIALIZE(operationTime_);
         ZERO_INITIALIZE(stateCount_);
 
-        //状態を回転に設定
-        ChangeEnemyState(EnemyStateList::GetEnemyRotationState());
+        //待機状態
+        ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
         //アニメーション停止
         Model::SetAnimFlag(hModel_, false);
@@ -254,7 +261,7 @@ void Enemy::Rotation()
         ZERO_INITIALIZE(rotationTotal_);
         ZERO_INITIALIZE(rotationAngle_);
 
-        //状態を待機に設定
+        //待機状態
         ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
     }
 }
@@ -262,48 +269,48 @@ void Enemy::Rotation()
 //Playerが視角内,指定距離内にいるかどうか調べる
 void Enemy::PlayerNearWithIsCheck()
 {
-    //もしPlayerのポインタがNullになっていたら処理をしない
-    if (GameManager::GetpPlayer() == nullptr) return;
+    ////もしPlayerのポインタがNullになっていたら処理をしない
+    //if (GameManager::GetpPlayer() == nullptr) return;
 
-    //Playerのポジションゲット
-    XMFLOAT3 playerPos = GameManager::GetpPlayer()->GetPosition();
+    ////Playerのポジションゲット
+    //XMFLOAT3 playerPos = GameManager::GetpPlayer()->GetPosition();
 
-    //自身からPlayerへのベクトル
-    XMVECTOR vToPlayer = XMLoadFloat3(&playerPos) - XMLoadFloat3(&transform_.position_);
+    ////自身からPlayerへのベクトル
+    //XMVECTOR vToPlayer = XMLoadFloat3(&playerPos) - XMLoadFloat3(&transform_.position_);
 
-    //自身からPlayerへのベクトルと自身の前ベクトルとの内積を調べる
-    dotX_ = acos(XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMVector3TransformCoord(front_, transform_.mmRotate_)), XMVector3Normalize(vToPlayer))));
+    ////自身からPlayerへのベクトルと自身の前ベクトルとの内積を調べる
+    //dotX_ = acos(XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMVector3TransformCoord(front_, transform_.mmRotate_)), XMVector3Normalize(vToPlayer))));
 
-    //どっち方向に回転させるか決めるために外積を求める
-    XMVECTOR cross = XMVector3Cross(XMVector3Normalize(XMVector3TransformCoord(front_, transform_.mmRotate_)), XMVector3Normalize(vToPlayer));
+    ////どっち方向に回転させるか決めるために外積を求める
+    //XMVECTOR cross = XMVector3Cross(XMVector3Normalize(XMVector3TransformCoord(front_, transform_.mmRotate_)), XMVector3Normalize(vToPlayer));
 
-    //符号が違うなら
-    if (signbit(XMVectorGetY(cross)) != signbit(XMVectorGetY(vNormal_)))
-        dotX_ *= SIGN_CHANGE;
+    ////符号が違うなら
+    //if (signbit(XMVectorGetY(cross)) != signbit(XMVectorGetY(vNormal_)))
+    //    dotX_ *= SIGN_CHANGE;
 
 
-    //視角内,指定距離内にいるなら
-    if (dotX_ < XMConvertToRadians(FEED_BACK_ANGLE) && dotX_ > XMConvertToRadians(-FEED_BACK_ANGLE) &&
-        RangeCalculation(playerPos, transform_.position_) < FEED_BACK_DISTANCE)
-    {
-        //死んでないならPlayerの方向を向く
-        if(pState_ != EnemyStateList::GetEnemyDieState())
-            angle_ += dotX_;
+    ////視角内,指定距離内にいるなら
+    //if (dotX_ < XMConvertToRadians(FEED_BACK_ANGLE) && dotX_ > XMConvertToRadians(-FEED_BACK_ANGLE) &&
+    //    RangeCalculation(playerPos, transform_.position_) < FEED_BACK_DISTANCE)
+    //{
+    //    //死んでないならPlayerの方向を向く
+    //    if(pState_ != EnemyStateList::GetEnemyDieState())
+    //        angle_ += dotX_;
 
-        //死んでいないのなら移動状態に
-        if(pState_ != EnemyStateList::GetEnemyKnockBackState() && pState_ != EnemyStateList::GetEnemyDieState())
-            ChangeEnemyState(EnemyStateList::GetEnemyMoveState());
+    //    //死んでいないのなら移動状態に
+    //    if(pState_ != EnemyStateList::GetEnemyKnockBackState() && pState_ != EnemyStateList::GetEnemyDieState())
+    //        ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
-        //Playerとの距離が最小距離以内かつ死んでないのなら待機状態に
-        if (RangeCalculation(transform_.position_, GameManager::GetpPlayer()->GetPosition()) < MIN_PLAYER_DISTANCE && pState_ != EnemyStateList::GetEnemyKnockBackState() && EnemyStateList::GetEnemyDieState())
-            ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
+    //    //Playerとの距離が最小距離以内かつ死んでないのなら待機状態に
+    //    if (RangeCalculation(transform_.position_, GameManager::GetpPlayer()->GetPosition()) < MIN_PLAYER_DISTANCE && pState_ != EnemyStateList::GetEnemyKnockBackState() && EnemyStateList::GetEnemyDieState())
+    //        ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
-        //継承先用の関数(視角内、射程内にPlayerがいるなら)
-        PlayerWithIf();
-    }
-    else
-        //継承先用の関数(視角内、射程内にPlayerがないなら)
-        NotPlayerWithIf();
+    //    //継承先用の関数(視角内、射程内にPlayerがいるなら)
+    //    PlayerWithIf();
+    //}
+    //else
+    //    //継承先用の関数(視角内、射程内にPlayerがないなら)
+    //    NotPlayerWithIf();
 }
 
 //状態チェンジ

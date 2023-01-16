@@ -19,6 +19,12 @@ Coin::Coin(GameObject* parent, std::string modelPath, std::string name)
 {
 }
 
+//コンストラクタ
+Coin::Coin(GameObject* parent)
+	: Mob(parent, "Stage/Gimmick/Coin.fbx", "Coin"), type_(RotationType), sign_(1), timeMethodStatus_(SignChange)
+{
+}
+
 //更新の前に一度だけ呼ばれる関数
 void Coin::ChildStartUpdate()
 {

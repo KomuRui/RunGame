@@ -29,7 +29,7 @@ void PlayStage::Initialize()
 
 	hModel_[Base] = Model::Load("Stage/Play/StraightStage.fbx");
 	hModel_[Space] = Model::Load("Stage/SpaceModel/Space.fbx");
-	hModel_[PolyModel] = Model::Load("Stage/Play/StraightStage.fbx");
+	//hModel_[PolyModel] = Model::Load("Stage/Play/StraightStage.fbx");
 
 	///////////////////////////äeéÌê›íË/////////////////////////////
 
@@ -73,8 +73,8 @@ void PlayStage::Draw()
 	Model::SetTransform(hModel_[Base], transform_);
 	Model::Draw(hModel_[Base]);
 
-	//Model::SetTransform(hModel_[Space], tSpace_);
-    //Model::Draw(hModel_[Space]);
+	Model::SetTransform(hModel_[Space], tSpace_);
+    Model::Draw(hModel_[Space]);
 }
 
 //âï˙

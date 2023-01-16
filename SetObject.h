@@ -6,14 +6,14 @@
 /// </summary>
 class SetObject : public GameObject
 {
-	int radius_;             //ステージの半径
+	float radius_;           //ステージの半径
 	int fpsCount_;           //どのくらいfpsがたっているか
 	int generatingSpeed_;    //生成スピード
 
 public:
 
 	//コンストラクタ
-	SetObject(GameObject* parent, std::string name);
+	SetObject(GameObject* parent);
 
 	/////////////////////オーバーライドする関数//////////////////////
 
@@ -38,5 +38,10 @@ public:
 	/// オブジェクト生成
 	/// </summary>
 	void ObjectGeneration();
+
+	/// <summary>
+	/// 生成
+	/// </summary>
+	void Generation();
 };
 

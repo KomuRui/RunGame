@@ -93,7 +93,7 @@ public:
 	int GethModel() { return hModel_[Base]; }
 
 	//球体に物体を乗せるために疑似モデル番号のゲット関数
-	int GetPolyModell() { return hModel_[PolyModel]; }
+	int GetPolyModell() { return hModel_[Base]; }
 
 	//Posのゲット関数
 	XMFLOAT3 GetPos() { return pos_; }

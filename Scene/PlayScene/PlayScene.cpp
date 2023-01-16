@@ -3,6 +3,7 @@
 #include "../../Engine/Input.h"
 #include "../../Engine/SceneManager.h"
 #include "../../Engine/Camera.h"
+#include "../../SetObject.h"
 #include "../../Player.h"
 #include "../../Engine/Model.h"
 #include "../../Engine/Light.h"
@@ -24,6 +25,9 @@ void PlayScene::Initialize()
 
 	//Player表示(これから使うステージのポインタをGameManagerにセット)
 	GameManager::SetpPlayer(Instantiate<Player>(this));
+
+	//オブジェクトセット用
+	Instantiate<SetObject>(this);
 
 	//フェードイン
 	GameManager::SetStatus(FADE_IN);

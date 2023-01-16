@@ -1,20 +1,25 @@
 #include "SetObject.h"
 #include "Engine/Fbx.h"
 #include "Engine/Model.h"
+#include "Gimmick/Coin.h"
+#include "Enemy/DropEnemy.h"
+#include "Enemy/PigEnemy.h"
 #include "Manager/GameManager/GameManager.h"
 
 //定数
 namespace
 {
-    static const float RADIUS_SMALL_VALUE = 0.5;  //半径を少しだけ小さくする時の値
+    static const float RADIUS_SMALL_VALUE = 3.0;  //半径を少しだけ小さくする時の値
     static const int   Z_DISTANCE = 100;          //PlayerZの位置から自身Zまでの距離
     static const int   MIN_GENERATION_SPEED = 30; //最小生成スピード(FPS)
     static const int   MAX_GENERATION_SPEED = 120;//最大生成スピード(FPS)
+    static const int   MIN_ANGLE = 0;             //最小角度
+    static const int   MAX_ANGLE = 360;           //最大角度
 }
 
 //コンストラクタ
-SetObject::SetObject(GameObject* parent, std::string name)
-	:GameObject(parent, name),radius_(ZERO), generatingSpeed_(ZERO), fpsCount_(ZERO)
+SetObject::SetObject(GameObject* parent)
+	:GameObject(parent, "SetObject"),radius_(ZERO), generatingSpeed_(ZERO), fpsCount_(ZERO)
 {
 }
 
@@ -67,8 +72,8 @@ void SetObject::ObjectGeneration()
     //もし生成のタイミングがきたなら
     if (generatingSpeed_ <= fpsCount_)
     {
-
-
+        //生成
+        Generation();
 
         //次の生成スピード設定
         ARGUMENT_INITIALIZE(generatingSpeed_, Random(MIN_GENERATION_SPEED, MAX_GENERATION_SPEED));
@@ -79,4 +84,31 @@ void SetObject::ObjectGeneration()
 
     //カウント増やす
     fpsCount_++;
+}
+
+//生成
+void SetObject::Generation()
+{	
+    //回転行列作成
+    XMMATRIX m = XMMatrixRotationZ(XMConvertToRadians(Random(MIN_ANGLE, MAX_ANGLE)));
+
+    //ベクトルを回す
+    XMVECTOR v = XMVector3Normalize(XMVector3TransformCoord(DOWN_VECTOR, m)) * radius_;
+
+    //オブジェクトの位置を求める
+    XMFLOAT3 pos = Float3Add(transform_.position_, VectorToFloat3(v));
+
+    
+    int num = rand() % 2;
+
+    if (num == 0)
+    {
+        Coin* pCoin = Instantiate<Coin>(GetParent());
+        pCoin->SetPosition(pos);
+    }
+    else if (num == 1)
+    {
+        PigEnemy* pCoin = Instantiate<PigEnemy>(GetParent());
+        pCoin->SetPosition(pos);
+    }
 }

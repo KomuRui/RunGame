@@ -62,7 +62,7 @@ void PlayerStateManager::Update2D(Player* player)
             else
             {
                 Model::SetAnimSpeed(GameManager::GetpPlayer()->GetPlayerhModel(), PLAYER_WALK_ANIM_SPEED);
-                front_ = XMVector3Normalize(front_) * RUN_SPEED * 5.0f;
+                front_ = XMVector3Normalize(front_) * RUN_SPEED * 30.0f;
             }
 
             //ƒWƒƒƒ“ƒv‰ñ“]‚ð‚µ‚Ä‚¢‚é‚©‚É‚æ‚Á‚ÄPlayer‚Ì“®‚­•ûŒü‚ðŒˆ‚ß,PlayerˆÚ“®
