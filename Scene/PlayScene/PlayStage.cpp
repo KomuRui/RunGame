@@ -33,7 +33,7 @@ void PlayStage::Initialize()
 
 	///////////////////////////Šeíİ’è/////////////////////////////
 
-	Model::SetBlendMode(hModel_[Base], Direct3D::SHADER_UNLIT);
+	//Model::SetBlendMode(hModel_[Base], Direct3D::SHADER_UNLIT);
 
 	//ƒŒƒC‚Ì”»’è‚ÉBase‚ğ‚¢‚ê‚½‚¢‚Ì‚Åtrue‚É‚µ‚Ä‚¨‚­
 	Model::SetRayFlag(hModel_[Base], true);
