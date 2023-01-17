@@ -234,7 +234,15 @@ void Player::CameraBehavior()
     //‘–‚éƒ‚[ƒh‚È‚ç
     if (runMode_)
     {
+        //ƒJƒƒ‰‚ğ•âŠÔ‚Å“®‚©‚·
         ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, XMVectorSet(ZERO, 5, -55, ZERO), 0.05f));
+
+        //‹——£‚ª1ˆÈ“à‚È‚ç
+        if (RangeCalculation(vCam_, XMVectorSet(ZERO, 5, -55, ZERO)) < 1)
+        {
+            
+        }
+
     }
     else
         ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);

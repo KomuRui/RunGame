@@ -63,6 +63,15 @@ static XMFLOAT3 Float3Add(XMFLOAT3 a, XMFLOAT3 b)
 	return XMFLOAT3(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
+//XMVECTORの変数をXMFLOAT3に変えて返してくれる
+static XMFLOAT3 VectorToFloat3(XMVECTOR v)
+{
+	XMFLOAT3 a;
+	XMStoreFloat3(&a, v);
+
+	return a;
+}
+
 //距離を求めてくれる
 static float RangeCalculation(XMFLOAT3 a, XMFLOAT3 b)
 {
@@ -73,13 +82,10 @@ static float RangeCalculation(XMFLOAT3 a, XMFLOAT3 b)
 		         (c.z * c.z));
 }
 
-//XMVECTORの変数をXMFLOAT3に変えて返してくれる
-static XMFLOAT3 VectorToFloat3(XMVECTOR v)
+//距離を求めてくれる
+static float RangeCalculation(XMVECTOR a, XMVECTOR b)
 {
-	XMFLOAT3 a;
-	XMStoreFloat3(&a, v);
-
-	return a;
+	return  RangeCalculation(VectorToFloat3(a), VectorToFloat3(b));
 }
 
 //ランダム(a以上b以下のランダムの値を出す)

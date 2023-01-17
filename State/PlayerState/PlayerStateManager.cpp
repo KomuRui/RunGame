@@ -94,6 +94,8 @@ void PlayerStateManager::Update3D(Player* player)
     float PadLx = Input::GetPadStickL().x;
     float padLy = Input::GetPadStickL().y;
 
+    bool xFlag = false;
+
         //もしPlayerが何もしていないのならアニメーション開始
         playerState_ == PlayerStateManager::playerStanding_ ? Model::SetAnimFlag(GameManager::GetpPlayer()->GetPlayerhModel(), true)
                                          : Model::SetAnimFlag(GameManager::GetpPlayer()->GetPlayerhModel(), false);
@@ -105,12 +107,14 @@ void PlayerStateManager::Update3D(Player* player)
 
             if (PadLx > ZERO || PadLx < ZERO)
             {
+                ARGUMENT_INITIALIZE(xFlag, true);
+
                 GameManager::GetpPlayer()->SetAngle(atan2(PadLx, 1));
                 GameManager::GetpPlayer()->SetJampRotationPreviousAngle(GameManager::GetpPlayer()->GetAngle());
             }
             else
             {
-                GameManager::GetpPlayer()->SetAngle(atan2(PadLx, 1));
+                GameManager::GetpPlayer()->SetAngle(atan2(0, 1));
                 GameManager::GetpPlayer()->SetJampRotationPreviousAngle(GameManager::GetpPlayer()->GetAngle());
             }
         }
@@ -122,7 +126,11 @@ void PlayerStateManager::Update3D(Player* player)
         {
 
             Model::SetAnimSpeed(GameManager::GetpPlayer()->GetPlayerhModel(), ANIM_RUN_SPEED);
-            front_ = XMVector3Normalize(front_) * RUN_SPEED * GameManager::GetpPlayer()->GetRunSpeed();
+
+            if (xFlag)
+                front_ = XMVector3Normalize(front_) * 5;
+            else
+                front_ = XMVector3Normalize(front_) * RUN_SPEED * GameManager::GetpPlayer()->GetRunSpeed();
 
             //ジャンプ回転をしているかによってPlayerの動く方向を決め,Player移動
             if (playerState_ != PlayerStateManager::playerJumpRotationning_ && playerState_ != PlayerStateManager::playerRotationning_)
