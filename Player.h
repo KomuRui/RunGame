@@ -33,11 +33,13 @@ class Player : public GameObject
 	float angle_;                           //キャラの上の軸の角度
 	float jampRotationPreviousAngle_;       //ジャンプしているときの角度
 	float acceleration_;                    //重力の加速度
+	float runSpeed_;                        //走るときのスピード
 
     int   hModel_;                          //モデル番号
 	int   rotationCount_;                   //回転してからどのくらいのフレームがたったか
 
 	bool  normalFlag_;                      //法線を調べるかどうか
+	bool  runMode_;                         //走るモードかどうか
 
 	///////////////カメラ///////////////////
 
@@ -51,6 +53,7 @@ class Player : public GameObject
 	};
 
 	XMVECTOR camVec_[MAX_CAM_SIZE];    //Playerからカメラまでの距離  
+	XMVECTOR vCam_;                    //カメラの位置までのベクトル
 	XMMATRIX camMat_;                  //カメラの角度を変更するためのマトリクス
 	
     int   camStatus_;                  //カメラの状態
@@ -287,5 +290,22 @@ public:
 	/// カメラのアングル長距離にセット
 	/// </summary>
 	void SetCamLong() { camStatus_ = LONG; CameraBehavior(); }
+
+	/// <summary>
+	/// 走る速度設定
+	/// </summary>
+	/// <param name="speed">設定したいスピード</param>
+	void SetRunSpeed(float speed) { runSpeed_ = speed; }
+
+	/// <summary>
+	/// 走る速度取得
+	/// </summary>
+	/// <returns>Playerの走る速度</returns>
+	float GetRunSpeed() { return runSpeed_; }
+
+	/// <summary>
+	/// 走るモードセット
+	/// </summary>
+	void SetRunMode(bool flag) { runMode_ = flag; }
 };
 

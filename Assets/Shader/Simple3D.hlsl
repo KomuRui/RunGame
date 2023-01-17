@@ -96,7 +96,7 @@ float4 PS(VS_OUT inData) : SV_Target
 	float  col = 0;
 	float4 shade = float4(0,0,0,0);
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		if (g_LightPosition[i].x != 99999 && g_LightPosition[i].y != 99999 && g_LightPosition[i].z != 99999)
 		{

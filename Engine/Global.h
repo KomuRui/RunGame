@@ -90,6 +90,12 @@ static int Random(int a, int b)
 	return (rand() % num) + a;
 }
 
+//ベクトルが0かどうか
+static bool VectorNotZero(XMVECTOR a)
+{
+	return (XMVectorGetX(a) == 0 && XMVectorGetY(a) == 0 && XMVectorGetZ(a) == 0 && XMVectorGetW(a) == 0);
+}
+
 //iniファイルからfloat型の変数を取ってくる
 static float GetPrivateProfilefloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTSTR lpDefault,LPCTSTR lpFileName)
 {

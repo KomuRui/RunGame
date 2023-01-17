@@ -63,7 +63,7 @@ namespace EnemyEffectManager
 		data.textureFileName = "Cloud.png";
 		data.position = pos;
 		data.delay = 0;
-		data.number = 250;
+		data.number = 350;
 		data.lifeTime = 100;
 		data.positionErr = XMFLOAT3(0.5, 0, 0.5);
 		data.dir = VectorToFloat3(dir);
@@ -71,7 +71,7 @@ namespace EnemyEffectManager
 		data.speed = 0.25f;
 		data.speedErr = 1;
 		data.accel = 0.93;
-		data.size = XMFLOAT2(0.1, 0.1);
+		data.size = XMFLOAT2(0.2, 0.2);
 		data.sizeErr = XMFLOAT2(0.4, 0.4);
 		data.scale = XMFLOAT2(0.99, 0.99);
 		data.color = XMFLOAT4(1, 1, 0.1, 1);

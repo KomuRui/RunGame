@@ -20,7 +20,7 @@ namespace
 
     ///////////////キャラの必要な情報///////////////////
 
-    static const float NORMAL_INTERPOLATION_FACTOR = GetPrivateProfilefloat("PLAYER", "NormalFactor", "0.045", parameterPath); //法線を補間するときの補間係数
+    static const float NORMAL_INTERPOLATION_FACTOR = GetPrivateProfilefloat("PLAYER", "NormalFactor", "0.3", parameterPath); //法線を補間するときの補間係数
     static const float PLAYER_ANIM_SPEED = GetPrivateProfilefloat("PLAYER", "AnimSpeed", "1.0", parameterPath);                //アニメーションの再生速度
     static const int ANIM_START_FRAME = GetPrivateProfilefloat("PLAYER", "AnimStartFrame", "1", parameterPath);                //アニメーションの開始フレーム
     static const int ANIM_END_FRAME = GetPrivateProfilefloat("PLAYER", "AnimEndFrame", "60", parameterPath);			       //アニメーションの終了フレーム
@@ -75,10 +75,13 @@ Player::Player(GameObject* parent)
     acceleration_(1),
     pState_(new PlayerStateManager),
     beforePos_(ZERO, ZERO, ZERO),
+    runSpeed_(5.0f),
+    runMode_(false),
 
     ///////////////////カメラ///////////////////////
 
     camMat_(XMMatrixIdentity()),
+    vCam_(XMVectorSet(ZERO, ZERO, ZERO, ZERO)),
     camStatus_(LONG),
     camAngle_(1),
     camPosFlag_(true),
@@ -136,6 +139,11 @@ void Player::Initialize()
 
     //自身の上軸設定
     vNormal_ = XMLoadFloat3(&dataNormal.normal);
+
+
+    ///////////////カメラ初期設定///////////////////
+
+    ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
 
 }
 
@@ -223,14 +231,22 @@ void Player::CameraBehavior()
         return;
     }
 
+    //走るモードなら
+    if (runMode_)
+    {
+        ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, XMVectorSet(ZERO, 5, -55, ZERO), 0.05f));
+    }
+    else
+        ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
+
+    //3D
     if (pstage_->GetthreeDflag())
     {
-        XMFLOAT3 camPos;                                         //最終的なカメラの位置を入れる変数
-        XMVECTOR vPos = XMLoadFloat3(&transform_.position_);     //transform_.position_のVector型
-        XMVECTOR vCam = camVec_[camStatus_];                     //Playerからカメラのベクトルを作成
-        vCam = XMVector3TransformCoord(vCam, camMat_);            //vCamを回す
+        XMFLOAT3 camPos;                                             //最終的なカメラの位置を入れる変数
+        XMVECTOR vPos = XMLoadFloat3(&transform_.position_);         //transform_.position_のVector型
+        XMVECTOR vCamDis_ = XMVector3TransformCoord(vCam_, camMat_); //vCamを回す
 
-        vPos += vCam;                    //PlayerのPosにPlayerからカメラのベクトルをたす
+        vPos += vCamDis_;                //PlayerのPosにPlayerからカメラのベクトルをたす
         XMStoreFloat3(&camPos, vPos);    //camPosにvPosをXMFLOAT3に変えていれる
 
         //カメラの上方向を求めるためにStagePotisionを引いて上方向のベクトルを作成
@@ -251,7 +267,9 @@ void Player::CameraBehavior()
         XMStoreFloat3(&lightPos, vNormal_ + XMLoadFloat3(&transform_.position_));
 
         Light::SetPlayerPosition(XMFLOAT4(lightPos.x, lightPos.y, lightPos.z, ZERO));
+
     }
+    //2D
     else
     {
 
@@ -310,18 +328,23 @@ void Player::RotationInStage()
     //Xのベクトルを抜き取る
     float dotX = ZERO;
 
+    //外積の結果入れる用
+    XMVECTOR cross;
+
     //自キャラまでのベクトルと自キャラの真上のベクトルが少しでも違うなら
     if (XMVectorGetX(up_) != XMVectorGetX(vNormal_) || XMVectorGetY(up_) != XMVectorGetY(vNormal_) || XMVectorGetZ(up_) != XMVectorGetZ(vNormal_))
     {
         //自キャラまでのベクトルと自キャラの真上のベクトルの内積を求める
         dotX = XMVectorGetX(XMVector3Dot(XMVector3Normalize(up_), XMVector3Normalize(vNormal_)));
-    }
 
-    //外積を求める(この結果の軸を横軸にする)
-    XMVECTOR cross = XMVector3Cross(up_, vNormal_);
+        //外積を求める(この結果の軸を横軸にする)
+        cross = XMVector3Cross(up_, vNormal_);
+    }
+    else
+        cross = XMVectorSet(ZERO,ZERO,ZERO,ZERO);
 
     //エラーの範囲内ではなければ
-    if (dotX != ZERO && dotX <= 1 && dotX >= -1)
+    if (dotX != ZERO && dotX <= 1 && dotX >= -1 && !VectorNotZero(cross))
     {
         //Playerを回転させるために二つの軸で回転させる
         totalMx_ *= XMMatrixRotationAxis(cross, acos(dotX));
@@ -366,14 +389,6 @@ void Player::MovingOperation()
 
     //今の状態の動き
     pState_->Update3D(this);
-
-    //Bを押したらカメラの位置変更
-    if (Input::IsPadButtonDown(XINPUT_GAMEPAD_B))
-    {
-        //カメラの状態変更
-        camStatus_ = (camStatus_ == LONG) ? SHORT
-                                          : LONG;
-    }
 
     //左ショルダーを押したら角度変更
     if (Input::IsPadButtonDown(XINPUT_GAMEPAD_LEFT_SHOULDER)) camAngle_ += CAM_SHOULDER_ADD_VALUE;

@@ -33,13 +33,12 @@ void PlayStage::Initialize()
 
 	///////////////////////////各種設定/////////////////////////////
 
-	//Model::SetBlendMode(hModel_[Base], Direct3D::SHADER_UNLIT);
-
 	//レイの判定にBaseをいれたいのでtrueにしておく
 	Model::SetRayFlag(hModel_[Base], true);
 
 	//Spaceモデルの明るさ設定
-	Model::SetBrightness(hModel_[Space], 0.5);
+	Model::SetBrightness(hModel_[Space], 0.5f);
+	Model::SetBrightness(hModel_[Base], 0.5f);
 
 	//PolyModelを透明に設定(軸を確認するためだけに使うため)
 	Model::SetAlpha(hModel_[PolyModel], 0);
@@ -72,9 +71,6 @@ void PlayStage::Draw()
 {
 	Model::SetTransform(hModel_[Base], transform_);
 	Model::Draw(hModel_[Base]);
-
-	Model::SetTransform(hModel_[Space], tSpace_);
-    Model::Draw(hModel_[Space]);
 }
 
 //解放

@@ -21,10 +21,10 @@ namespace
 	static const float KNOCKBACK_DIFFERENCIAL_DISTANCE = 5.0f;//ノックバックの差分距離
 	static const float INTERPOLATION_COEFFICIENT = 0.08f;     //補間係数
 	static const float HIT_STOP_TIME = 0.15f;                 //ヒットストップ演出の時間
-	static const float FLY_VECTOR_SIZE = 1.5f;				  //FLYベクトルの大きさ
+	static const float FLY_VECTOR_SIZE = 1.0f;				  //FLYベクトルの大きさ
 	static const float FLY_VECTOR_DOWN = 0.015f;			  //FLYベクトルを小さくしていくときの値
 	static const float COLLIDER_SIZE = 1.7f;                  //コライダーサイズ
-	static const float DIE_TIME = 2.0f;                       //死ぬまでの時間
+	static const float DIE_TIME = 1.0f;                       //死ぬまでの時間
 
 	//////////////////////カメラ//////////////////////
 
@@ -86,7 +86,7 @@ void PigEnemy::KnockBackDie()
 	if (!isKnockBack_)
 	{
 		//ノックバックどこまでするか設定(単位ベクトルにして定数分倍にする)
-		knockBackDir_ = (XMVectorSet(0,0,5,0) * KNOCKBACK_ASSUMPTION_DISTANCE) + XMLoadFloat3(&transform_.position_);
+		knockBackDir_ = (XMVectorSet(0,0,10,0) * KNOCKBACK_ASSUMPTION_DISTANCE) + XMLoadFloat3(&transform_.position_);
 
 		//どのくらい空飛ぶか設定
 		ARGUMENT_INITIALIZE(vFly_, GameManager::GetpPlayer()->GetNormal() * FLY_VECTOR_SIZE);
@@ -136,14 +136,7 @@ void PigEnemy::KnockBackDie()
 			ARGUMENT_INITIALIZE(vFly_, vFly_ - (vNormal_ * FLY_VECTOR_DOWN));
 		}
 
-		if (XMVectorGetX(up_) != XMVectorGetX(vNormal_) || XMVectorGetY(up_) != XMVectorGetY(vNormal_) || XMVectorGetZ(up_) != XMVectorGetZ(vNormal_))
-		{
-			//外積求める
-			XMVECTOR cross = XMVector3Cross(up_, vNormal_);
-
-			//転ばせる
-			transform_.mmRotate_ *= XMMatrixRotationAxis(cross, 2);
-		}
+		Model::SetAnimFrame(hModel_, 80, 80, ZERO);
 	}
 
 	//ノックバックした距離がノックバックの想定距離と1以内の距離なら
@@ -163,8 +156,12 @@ void PigEnemy::Die()
 	//待機状態に変更
 	ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
+	Model::SetAnimFrame(hModel_, 80, 80, ZERO);
+
 	//死ぬエフェクト
 	EnemyEffectManager::DieEffect(effectNum_, transform_.position_, up_);
+	GameManager::GetpPlayer()->SetRunSpeed(8.0f);
+	GameManager::GetpPlayer()->SetRunMode(true);
 
 	//描画しない
 	Invisible();

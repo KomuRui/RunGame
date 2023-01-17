@@ -28,6 +28,8 @@ Coin::Coin(GameObject* parent)
 //更新の前に一度だけ呼ばれる関数
 void Coin::ChildStartUpdate()
 {
+	transform_.scale_ = { 2,2,2 };
+
 	//コライダー追加
 	SphereCollider* collision = new SphereCollider(XMFLOAT3(ZERO, XMVectorGetY(XMVector3Normalize(vNormal_)) * COLLIDER_POS_Y * transform_.scale_.y, ZERO), COLLIDER_RADIUS * transform_.scale_.y);
 	AddCollider(collision);

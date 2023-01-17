@@ -62,7 +62,7 @@ void PlayerStateManager::Update2D(Player* player)
             else
             {
                 Model::SetAnimSpeed(GameManager::GetpPlayer()->GetPlayerhModel(), PLAYER_WALK_ANIM_SPEED);
-                front_ = XMVector3Normalize(front_) * RUN_SPEED * 30.0f;
+                front_ = XMVector3Normalize(front_) * RUN_SPEED;
             }
 
             //ジャンプ回転をしているかによってPlayerの動く方向を決め,Player移動
@@ -105,7 +105,7 @@ void PlayerStateManager::Update3D(Player* player)
 
             if (PadLx > ZERO || PadLx < ZERO)
             {
-                GameManager::GetpPlayer()->SetAngle(atan2(PadLx, 0));
+                GameManager::GetpPlayer()->SetAngle(atan2(PadLx, 1));
                 GameManager::GetpPlayer()->SetJampRotationPreviousAngle(GameManager::GetpPlayer()->GetAngle());
             }
             else
@@ -121,18 +121,8 @@ void PlayerStateManager::Update3D(Player* player)
         //Playerの移動
         {
 
-            //移動するときにLトリガーを押していたらダッシュをする
-            if (Input::GetPadTrrigerL())
-            {
-                Model::SetAnimSpeed(GameManager::GetpPlayer()->GetPlayerhModel(), ANIM_RUN_SPEED);
-                front_ = XMVector3Normalize(front_) * RUN_SPEED;
-            }
-            else
-            {
-                Model::SetAnimSpeed(GameManager::GetpPlayer()->GetPlayerhModel(), PLAYER_WALK_ANIM_SPEED);
-                front_ = XMVector3Normalize(front_) * RUN_SPEED * 2.0f;
-            }
-
+            Model::SetAnimSpeed(GameManager::GetpPlayer()->GetPlayerhModel(), ANIM_RUN_SPEED);
+            front_ = XMVector3Normalize(front_) * RUN_SPEED * GameManager::GetpPlayer()->GetRunSpeed();
 
             //ジャンプ回転をしているかによってPlayerの動く方向を決め,Player移動
             if (playerState_ != PlayerStateManager::playerJumpRotationning_ && playerState_ != PlayerStateManager::playerRotationning_)
