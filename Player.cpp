@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
-#include "Engine/Camera.h"
 #include <cmath>
 #include "Engine/Light.h"
 #include "Engine/BoxCollider.h"
@@ -85,7 +84,8 @@ Player::Player(GameObject* parent)
     camStatus_(LONG),
     camAngle_(1),
     camPosFlag_(true),
-    camFlag_(true)
+    camFlag_(true),
+    camLong_(true)
     
 {
     camVec_[LONG] = XMVectorSet(ZERO, 5, -15, ZERO);
@@ -234,13 +234,33 @@ void Player::CameraBehavior()
     //走るモードなら
     if (runMode_)
     {
-        //カメラを補間で動かす
-        ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, XMVectorSet(ZERO, 5, -55, ZERO), 0.05f));
-
-        //距離が1以内なら
-        if (RangeCalculation(vCam_, XMVectorSet(ZERO, 5, -55, ZERO)) < 1)
+        //遠距離にする
+        if (camLong_)
         {
-            
+            //カメラを補間で動かす
+            ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, XMVectorSet(ZERO, 5, -55, ZERO), 0.1f));
+
+            //距離が1以内なら
+            if (RangeCalculation(vCam_, XMVectorSet(ZERO, 5, -55, ZERO)) < 1)
+            {
+                ARGUMENT_INITIALIZE(camLong_, false);
+                ARGUMENT_INITIALIZE(runSpeed_, 5.0f);
+                Camera::SetFieldAngle(45);
+            }
+        }
+        //通常にする
+        else
+        {
+            //カメラを補間で動かす
+            ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, camVec_[camStatus_], 0.1f));
+
+            //距離が1以内なら
+            if (RangeCalculation(vCam_, camVec_[camStatus_]) < 1)
+            {
+                ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
+                ARGUMENT_INITIALIZE(camLong_, true);
+                ARGUMENT_INITIALIZE(runMode_, false);
+            }
         }
 
     }

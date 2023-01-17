@@ -100,7 +100,7 @@ void PlayerStateManager::Update3D(Player* player)
         playerState_ == PlayerStateManager::playerStanding_ ? Model::SetAnimFlag(GameManager::GetpPlayer()->GetPlayerhModel(), true)
                                          : Model::SetAnimFlag(GameManager::GetpPlayer()->GetPlayerhModel(), false);
 
-        //ジャンプ回転をしていないなら
+        //回転をしていないなら
         if (playerState_ != PlayerStateManager::playerJumpRotationning_ && playerState_ != PlayerStateManager::playerRotationning_)
         {
             //キャラの上軸の角度をコントローラーの角度に変換

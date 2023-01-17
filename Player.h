@@ -5,7 +5,7 @@
 #include "Engine/Fbx.h"
 #include "State/PlayerState/PlayerStateManager.h"
 #include "Engine/Model.h"
-
+#include "Engine/Camera.h"
 
 /// <summary>
 /// Playerの基本クラス
@@ -60,6 +60,7 @@ class Player : public GameObject
 	float camAngle_;                   //カメラの角度
 	bool  camPosFlag_;                 //カメラのポジション動くかどうか
 	bool  camFlag_;                    //カメラ動作するかどうか
+	bool  camLong_;                    //カメラが遠距離かどうか
 
 	///////////////当たり判定///////////////////
 
@@ -306,6 +307,10 @@ public:
 	/// <summary>
 	/// 走るモードセット
 	/// </summary>
-	void SetRunMode(bool flag) { runMode_ = flag; }
+	void SetRunMode(bool flag) {
+		runMode_ = flag;
+		ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
+		ARGUMENT_INITIALIZE(camLong_, true);
+	}
 };
 
