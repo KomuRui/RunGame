@@ -1,5 +1,6 @@
 #include "Coin.h"
 #include "../Manager/CoinManager/CoinManager.h"
+#include "../Manager/EffectManager/CoinEffectManager/CoinEffectManager.h"
 
 //定数
 namespace
@@ -15,19 +16,26 @@ namespace
 
 //コンストラクタ
 Coin::Coin(GameObject* parent, std::string modelPath, std::string name)
-	: Mob(parent, modelPath, name),type_(RotationType), sign_(1), timeMethodStatus_(SignChange)
+	: Mob(parent, modelPath, name),type_(RotationType), sign_(1), timeMethodStatus_(SignChange), effectNumber_(-1)
 {
 }
 
 //コンストラクタ
 Coin::Coin(GameObject* parent)
-	: Mob(parent, "Stage/Gimmick/Coin.fbx", "Coin"), type_(RotationType), sign_(1), timeMethodStatus_(SignChange)
+	: Mob(parent, "Stage/Gimmick/Coin.fbx", "Coin"), type_(RotationType), sign_(1), timeMethodStatus_(SignChange), effectNumber_(-1)
 {
 }
 
 //更新の前に一度だけ呼ばれる関数
 void Coin::ChildStartUpdate()
 {
+	//明るさ
+	Model::SetBrightness(hModel_, 1.0f);
+
+	//エフェクト
+	ARGUMENT_INITIALIZE(effectNumber_, CoinEffectManager::Add(GetParent()));
+
+	//仮
 	transform_.scale_ = { 2,2,2 };
 
 	//コライダー追加
@@ -117,6 +125,9 @@ void Coin::OnCollision(GameObject* pTarget)
 	//Player以外なら何もしない
 	if (pTarget->GetObjectName() != "Player")
 		return;
+
+	//エフェクト表示
+	CoinEffectManager::HitEffect(effectNumber_);
 
 	//所有コインの量を増やす(コインの大きさによって増やす量変える)
 	CoinManager::AddCoin(transform_.scale_.y);

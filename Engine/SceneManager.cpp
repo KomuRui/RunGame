@@ -9,6 +9,7 @@
 #include "../Manager/CoinManager/CoinManager.h"
 #include "../Manager/EffectManager/PlayerEffectManager/PlayerEffectManager.h"
 #include "../Manager/EffectManager/EnemyEffectManager/EnemyEffectManager.h"
+#include "../Manager/EffectManager/CoinEffectManager/CoinEffectManager.h"
 
 //コンストラクタ
 SceneManager::SceneManager(GameObject * parent)
@@ -48,6 +49,7 @@ void SceneManager::Update()
 		//ロードしたデータを全削除
 		PlayerEffectManager::AllRelease();
 		EnemyEffectManager::AllRelease();
+		CoinEffectManager::AllRelease();
 		Audio::AllRelease();
 		Model::AllRelease();
 		Image::AllRelease();

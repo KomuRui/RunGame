@@ -12,7 +12,7 @@ namespace
     static const float RADIUS_SMALL_VALUE = 3.0;  //半径を少しだけ小さくする時の値
     static const int   Z_DISTANCE = 100;          //PlayerZの位置から自身Zまでの距離
     static const int   MIN_GENERATION_SPEED = 30; //最小生成スピード(FPS)
-    static const int   MAX_GENERATION_SPEED = 120;//最大生成スピード(FPS)
+    static const int   MAX_GENERATION_SPEED = 60;//最大生成スピード(FPS)
     static const int   MIN_ANGLE = 0;             //最小角度
     static const int   MAX_ANGLE = 360;           //最大角度
 }

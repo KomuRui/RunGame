@@ -90,6 +90,9 @@
     <Filter Include="Scene\PlayScene">
       <UniqueIdentifier>{1c9112b5-2c26-4f05-a094-e7a07f7afe1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\EffectManager\CoinEffectManager">
+      <UniqueIdentifier>{aa40ef53-d72b-4e86-add4-f5fe61eed4c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -320,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="Enemy\PigEnemy.cpp">
       <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\EffectManager\CoinEffectManager\CoinEffectManager.cpp">
+      <Filter>Manager\EffectManager\CoinEffectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,6 +563,9 @@
     </ClInclude>
     <ClInclude Include="Enemy\PigEnemy.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\EffectManager\CoinEffectManager\CoinEffectManager.h">
+      <Filter>Manager\EffectManager\CoinEffectManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

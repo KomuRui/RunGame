@@ -28,7 +28,7 @@ namespace
 
 	//////////////////////カメラ//////////////////////
 
-	static const float VIBRATION_INTENSITY = 0.2f; //振動の強さ
+	static const float VIBRATION_INTENSITY = 0.4f; //振動の強さ
 }
 
 //コンストラクタ
@@ -45,6 +45,10 @@ PigEnemy::PigEnemy(GameObject* parent)
 //更新の前に一回呼ばれる関数
 void PigEnemy::EnemyChildStartUpdate()
 {
+	///////////////明るさ///////////////////
+
+	Model::SetBrightness(hModel_, 1.0f);
+
 	///////////////エフェクト///////////////////
 
 	//エフェクトの番号保存
@@ -220,7 +224,7 @@ void PigEnemy::OnCollision(GameObject* pTarget)
 			EnemyEffectManager::HitEffect(effectNum_, hitPos, transform_.position_);
 
 			//カメラ振動
-			Camera::SetCameraVibration(VIBRATION_INTENSITY);
+			Camera::SetCameraVibration(VIBRATION_INTENSITY,0.02f);
 
 			//ノックバックして死亡させる
 			ChangeEnemyState(EnemyStateList::GetEnemyKnockBackState());

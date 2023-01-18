@@ -119,7 +119,19 @@ void PlayerStateManager::Update3D(Player* player)
             }
         }
         else
-            GameManager::GetpPlayer()->SetJampRotationPreviousAngle(atan2(PadLx, padLy));
+        {
+            //キャラの上軸の角度をコントローラーの角度に変換
+
+            if (PadLx > ZERO || PadLx < ZERO)
+            {
+                ARGUMENT_INITIALIZE(xFlag, true);
+
+                GameManager::GetpPlayer()->SetJampRotationPreviousAngle(atan2(PadLx, 1));
+            }
+            else
+                GameManager::GetpPlayer()->SetJampRotationPreviousAngle(atan2(0, 1));
+
+        }
 
 
         //Playerの移動
