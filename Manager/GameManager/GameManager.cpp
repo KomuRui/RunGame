@@ -108,7 +108,7 @@ namespace GameManager
 			if (ComboTotalCount_ != ZERO)
 			{
 				//コンボ描画
-				pComboText_->Draw(comboPositiom_.x, comboPositiom_.y, L"コンボ", 1);
+				pComboText_->Draw(comboPositiom_.x, comboPositiom_.y, L"COMBO", 0.5f);
 				pComboNumText_->NumberDraw(numberPositiom_.x, numberPositiom_.y, ComboTotalCount_, scale_);
 			}
 
