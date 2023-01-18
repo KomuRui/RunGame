@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
+#include "Engine/Image.h"
 #include <cmath>
 #include "Engine/Light.h"
 #include "Engine/BoxCollider.h"
@@ -101,10 +102,16 @@ void Player::Initialize()
 
     PlayerStateManager::playerState_ = PlayerStateManager::playerStanding_;
 
-	///////////////モデルデータのロード///////////////////
+	///////////////モデル・画像データのロード///////////////////
 
 	hModel_ = Model::Load("Star_Main_Character.fbx");
 	assert(hModel_ >= ZERO);
+
+    hPictWind_ = Image::Load("Image/kaze2.png");
+    assert(hPictWind_ >= ZERO);
+
+    hPictWind2_ = Image::Load("Image/kaze3.png");
+    assert(hPictWind2_ >= ZERO);
 
     ///////////////Playerは元々あるTransform.Rotateを使わないためFlagをTrueにする///////////////////
 
@@ -183,8 +190,27 @@ void Player::Update()
 //描画
 void Player::Draw()
 {
+    //Player描画
 	Model::SetTransform(hModel_, transform_);
 	Model::Draw(hModel_);
+
+    //もし走るモードなら
+    if (runMode_ && camLong_)
+    {
+        Transform t;
+
+        //乱数で表示する画像を変える
+        if (rand() % 2 == 1)
+        {
+            Image::SetTransform(hPictWind_, t);
+            Image::Draw(hPictWind_);
+        }
+        else
+        {
+            Image::SetTransform(hPictWind2_, t);
+            Image::Draw(hPictWind2_);
+        }
+    }
 }
 
 //開放

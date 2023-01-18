@@ -36,6 +36,8 @@ class Player : public GameObject
 	float runSpeed_;                        //走るときのスピード
 
     int   hModel_;                          //モデル番号
+	int   hPictWind_;                       //風の画像番号
+	int   hPictWind2_;                      //風の画像番号
 	int   rotationCount_;                   //回転してからどのくらいのフレームがたったか
 
 	bool  normalFlag_;                      //法線を調べるかどうか
