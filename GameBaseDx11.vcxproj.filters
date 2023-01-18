@@ -327,6 +327,9 @@
     <ClCompile Include="Manager\EffectManager\CoinEffectManager\CoinEffectManager.cpp">
       <Filter>Manager\EffectManager\CoinEffectManager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Time.cpp">
+      <Filter>01Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -566,6 +569,9 @@
     </ClInclude>
     <ClInclude Include="Manager\EffectManager\CoinEffectManager\CoinEffectManager.h">
       <Filter>Manager\EffectManager\CoinEffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Time.h">
+      <Filter>01Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

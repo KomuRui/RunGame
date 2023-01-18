@@ -2,6 +2,7 @@
 #include "../../Engine/Sprite.h"
 #include "../CoinManager/CoinManager.h"
 #include "../TextManager/TextManager.h"
+#include "../../Engine/Text.h"
 #include <cmath>
 
 //定数
@@ -15,36 +16,29 @@ namespace GameManager
 {
 	///////////////////////////////変数//////////////////////////////////
 
-	//フェードの状態:0 何もしない,1 フェードイン, 2フェードアウト 
-	int FadeStatus_;
+	//フェード
+	int FadeStatus_;					  //フェードの状態:0 何もしない,1 フェードイン, 2フェードアウト 
+	float maxDistance_;					  //フェードで使用する最大距離
+	float nowDistance_;                   //フェードで使用する今の距離
+	Sprite* pSprite_[SCENE_ID_MAX]; 	  //フェード用の画像(シーンの数分)
+	std::string fadeImage_[SCENE_ID_MAX]; //フェード用の画像の文字列(シーンの数分)
 
-	//フェードで使用する最大距離
-	float maxDistance_;
+	//各オブジェクト
+	Player* pNowPlayer_;          //現在使用されているプレイヤーのポインタ格納用
+	Stage* pNowStage_;            //現在の使用されているステージのポインタ格納用
+	SceneManager* pSceneManager_; //シーンマネージャーのポインタ格納用
+	
+	//コンボ
+	Text* pComboText_;           //コンボ数表示するテキスト
+	XMFLOAT2 comboPositiom_;     //テキストのポジション
+	int ComboTotalCount_;        //どのくらいコンボしているか
 
-	//フェードで使用する今の距離
-	float nowDistance_;
-
-	//フェード用の画像(シーンの数分)
-	Sprite* pSprite_[SCENE_ID_MAX];
-
-	//現在使用されているプレイヤーのポインタ格納用
-	Player* pNowPlayer_;
-
-	//現在の使用されているステージのポインタ格納用
-	Stage* pNowStage_;
-
-	//シーンマネージャーのポインタ格納用
-	SceneManager* pSceneManager_;
-
-	//フェード用の画像の文字列(シーンの数分)
-	std::string fadeImage_[SCENE_ID_MAX];
 
 	///////////////////////////////関数//////////////////////////////////
 
 	//初期化
 	void GameManager::Initialize()
 	{
-
 		//コインマネージャーの初期化
 		CoinManager::Initialize();
 
@@ -59,6 +53,7 @@ namespace GameManager
 		ARGUMENT_INITIALIZE(pNowStage_, nullptr);
 		ARGUMENT_INITIALIZE(maxDistance_,std::sqrt(pow((Direct3D::screenHeight_ / 2), 2) + pow((Direct3D::screenWidth_ / 2), 2)));
 		ARGUMENT_INITIALIZE(nowDistance_, 0);
+		ARGUMENT_INITIALIZE(ComboTotalCount_, 0);
 
 		//フェード用の画像ロード
 		for (int i = 0; i < SCENE_ID_MAX; i++)
@@ -66,6 +61,22 @@ namespace GameManager
 			ARGUMENT_INITIALIZE(pSprite_[i], new Sprite);
 			pSprite_[i]->Load(fadeImage_[i]);
 		}
+
+		//テキストの初期化
+		ARGUMENT_INITIALIZE(pComboText_, new Text);
+		pComboText_->Initialize();
+
+		//テキストのポジション設定
+		comboPositiom_.x = 1300;
+		comboPositiom_.y = 200;
+	}
+
+	//シーン遷移の時の初期化
+	void GameManager::SceneTransitionInitialize()
+	{
+		//テキストの初期化
+		ARGUMENT_INITIALIZE(pComboText_, new Text);
+		pComboText_->Initialize();
 	}
 
 	//Playerが死亡した時にLifeManagerから呼ばれる
@@ -74,14 +85,27 @@ namespace GameManager
 
 	}
 
-	/// <summary>
-	/// 描画(コインの取得数やPlayerライフの表示)
-	/// </summary>
+	//描画(コインの取得数やPlayerコンボの表示)
 	void Draw()
 	{
 		//もしPlayシーンなら
 		if (pSceneManager_->GetSceneId() != SCENE_ID_TITLE)
 		{
+
+			//コンボ数が0じゃなければ
+			if (ComboTotalCount_ != ZERO)
+			{
+				//ワイド文字列に変換
+				wchar_t wtext[FILENAME_MAX];
+				std::string text = std::to_string(ComboTotalCount_) + "コンボ";
+				size_t ret;
+				setlocale(LC_ALL, ".932");
+				mbstowcs_s(&ret, wtext, text.c_str(), strlen(text.c_str()));
+
+				//コンボ描画
+				pComboText_->Draw(comboPositiom_.x, comboPositiom_.y, wtext);
+			}
+
 			//コインの取得数の表示
 			CoinManager::Draw();
 		}
@@ -245,4 +269,9 @@ namespace GameManager
 		//描画
 		pSprite_[pSceneManager_->GetSceneId()]->Draw(t, nowDistance_, rect);
 	};
+
+	///////////////////////////////Combo関数////////////////////////////////////
+
+    //コンボ加算
+	void GameManager::AddCombo() { ComboTotalCount_++; }
 }

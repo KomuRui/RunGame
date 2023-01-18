@@ -57,6 +57,7 @@ void SceneManager::Update()
 		//‚¢‚ë‚¢‚ë‰Šú‰»ó‘Ô‚É‚µ‚Ä‚¨‚­
 		Light::Initialize();
 		CoinManager::SceneTransitionInitialize();
+		GameManager::SceneTransitionInitialize();
 
 		//Ÿ‚ÌƒV[ƒ“‚ğì¬
 		switch (nextSceneID_)

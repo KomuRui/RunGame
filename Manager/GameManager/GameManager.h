@@ -23,6 +23,11 @@ namespace GameManager
 	void Initialize();
 
 	/// <summary>
+	/// シーン遷移の時の初期化
+	/// </summary>
+	void SceneTransitionInitialize();
+
+	/// <summary>
 	/// Playerが死亡した時にLifeManagerから呼ばれる
 	/// </summary>
 	void PlayerDie();
@@ -85,5 +90,12 @@ namespace GameManager
 	/// </summary>
 	/// <returns>現在の状態</returns>
 	int GetStatus();
+
+	///////////////////////////////Combo関数////////////////////////////////////
+
+	/// <summary>
+	/// コンボ加算
+	/// </summary>
+	void AddCombo();
 };
 

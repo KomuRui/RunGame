@@ -309,7 +309,9 @@ public:
 	/// </summary>
 	void SetRunMode(bool flag) {
 		runMode_ = flag;
-		ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
+
+		//ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
+
 		ARGUMENT_INITIALIZE(camLong_, true);
 	}
 };

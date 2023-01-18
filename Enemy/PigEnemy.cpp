@@ -160,12 +160,14 @@ void PigEnemy::Die()
 	//待機状態に変更
 	ChangeEnemyState(EnemyStateList::GetEnemyWaitState());
 
+	//吹っ飛ばされるアニメーションに
 	Model::SetAnimFrame(hModel_, 80, 80, ZERO);
 
 	//死ぬエフェクト
 	EnemyEffectManager::DieEffect(effectNum_, transform_.position_, up_);
 	GameManager::GetpPlayer()->SetRunSpeed(8.0f);
 	GameManager::GetpPlayer()->SetRunMode(true);
+	GameManager::AddCombo();
 
 	//描画しない
 	Invisible();
@@ -209,13 +211,6 @@ void PigEnemy::OnCollision(GameObject* pTarget)
 		//もしPlayerが回転していたらかつ自身が死んでいないなら
 		if (GameManager::GetpPlayer()->IsRotation() && pState_ != EnemyStateList::GetEnemyKnockBackState() && pState_ != EnemyStateList::GetEnemyDieState())
 		{
-			//ヒットストップ演出(動きを止める)
-			Leave();
-			pTarget->Leave();
-
-			//Playerも敵も0.15秒後に動き出す
-			SetTimeMethod(HIT_STOP_TIME);
-			pTarget->SetTimeMethod(HIT_STOP_TIME);
 
 			//当たった位置を調べる
 			XMFLOAT3 hitPos = VectorToFloat3(XMLoadFloat3(&transform_.position_) + (XMVector3Normalize(XMLoadFloat3(new XMFLOAT3(GameManager::GetpPlayer()->GetPosition())) - XMLoadFloat3(&transform_.position_)) * GetColliderRadius()));

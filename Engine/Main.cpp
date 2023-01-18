@@ -155,10 +155,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//様々な描画処理をする
 				GameManager::Draw();
 
-//リリース時は削除
-#ifdef _DEBUG
-				
-#endif
 				//デバッグ用UIなので最後に表示
 				ImGuiSet::Draw();
 				Direct3D::EndDraw();

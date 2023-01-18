@@ -245,7 +245,6 @@ void Player::CameraBehavior()
             {
                 ARGUMENT_INITIALIZE(camLong_, false);
                 ARGUMENT_INITIALIZE(runSpeed_, 5.0f);
-                Camera::SetFieldAngle(45);
             }
         }
         //í èÌÇ…Ç∑ÇÈ
