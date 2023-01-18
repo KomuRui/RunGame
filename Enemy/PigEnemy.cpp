@@ -168,6 +168,7 @@ void PigEnemy::Die()
 	GameManager::GetpPlayer()->SetRunSpeed(8.0f);
 	GameManager::GetpPlayer()->SetRunMode(true);
 	GameManager::AddCombo();
+	GameManager::SetTextScale(2.5f);
 
 	//•`‰æ‚µ‚È‚¢
 	Invisible();
@@ -198,16 +199,6 @@ void PigEnemy::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Player")
 	{
 		
-		//“–‚½‚Á‚½ŽžPlayer‚ªã‚É‚¢‚é‚©‚ÂŽ©g‚ªŽ€‚ñ‚Å‚¢‚È‚¢‚È‚ç
-		if (IsPlayerTop() && pState_ != EnemyStateList::GetEnemyKnockBackState() && pState_ != EnemyStateList::GetEnemyDieState())
-		{
-			//Ž€‚ñ‚Å‚éƒAƒjƒ[ƒVƒ‡ƒ“‚É‚·‚é
-			Model::SetAnimFrame(hModel_, ANIM_DIE_FRAME, ANIM_DIE_FRAME, ZERO);
-
-			//Ž€–S‚³‚¹‚é
-			ChangeEnemyState(EnemyStateList::GetEnemyDieState());
-		}
-
 		//‚à‚µPlayer‚ª‰ñ“]‚µ‚Ä‚¢‚½‚ç‚©‚ÂŽ©g‚ªŽ€‚ñ‚Å‚¢‚È‚¢‚È‚ç
 		if (GameManager::GetpPlayer()->IsRotation() && pState_ != EnemyStateList::GetEnemyKnockBackState() && pState_ != EnemyStateList::GetEnemyDieState())
 		{

@@ -271,6 +271,7 @@ void Player::CameraBehavior()
             {
                 ARGUMENT_INITIALIZE(camLong_, false);
                 ARGUMENT_INITIALIZE(runSpeed_, 5.0f);
+                GameManager::SetTextScale(1.0f);
             }
         }
         //í èÌÇ…Ç∑ÇÈ

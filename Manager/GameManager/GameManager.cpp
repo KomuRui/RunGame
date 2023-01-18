@@ -29,9 +29,12 @@ namespace GameManager
 	SceneManager* pSceneManager_; //シーンマネージャーのポインタ格納用
 	
 	//コンボ
-	Text* pComboText_;           //コンボ数表示するテキスト
+	Text* pComboText_;           //コンボの文字表示するテキスト
+	Text* pComboNumText_;        //コンボ数表示するテキスト
 	XMFLOAT2 comboPositiom_;     //テキストのポジション
+	XMFLOAT2 numberPositiom_;    //数字のポジション
 	int ComboTotalCount_;        //どのくらいコンボしているか
+	int scale_;                  //拡大率
 
 
 	///////////////////////////////関数//////////////////////////////////
@@ -52,8 +55,9 @@ namespace GameManager
 		ARGUMENT_INITIALIZE(pNowPlayer_, nullptr);
 		ARGUMENT_INITIALIZE(pNowStage_, nullptr);
 		ARGUMENT_INITIALIZE(maxDistance_,std::sqrt(pow((Direct3D::screenHeight_ / 2), 2) + pow((Direct3D::screenWidth_ / 2), 2)));
-		ARGUMENT_INITIALIZE(nowDistance_, 0);
-		ARGUMENT_INITIALIZE(ComboTotalCount_, 0);
+		ARGUMENT_INITIALIZE(nowDistance_, ZERO);
+		ARGUMENT_INITIALIZE(ComboTotalCount_, ZERO);
+		ARGUMENT_INITIALIZE(scale_, 1);
 
 		//フェード用の画像ロード
 		for (int i = 0; i < SCENE_ID_MAX; i++)
@@ -65,10 +69,16 @@ namespace GameManager
 		//テキストの初期化
 		ARGUMENT_INITIALIZE(pComboText_, new Text);
 		pComboText_->Initialize();
+		ARGUMENT_INITIALIZE(pComboNumText_, new Text);
+		pComboNumText_->Initialize("Text/NumberFont.png", 128, 256, 10);
 
 		//テキストのポジション設定
-		comboPositiom_.x = 1300;
+		comboPositiom_.x = 1350;
 		comboPositiom_.y = 200;
+
+		//数字のポジション設定
+		numberPositiom_.x = 1200;
+		numberPositiom_.y = 200;
 	}
 
 	//シーン遷移の時の初期化
@@ -77,6 +87,8 @@ namespace GameManager
 		//テキストの初期化
 		ARGUMENT_INITIALIZE(pComboText_, new Text);
 		pComboText_->Initialize();
+		ARGUMENT_INITIALIZE(pComboNumText_, new Text);
+		pComboNumText_->Initialize("Text/NumberFont.png", 128, 256, 10);
 	}
 
 	//Playerが死亡した時にLifeManagerから呼ばれる
@@ -95,15 +107,9 @@ namespace GameManager
 			//コンボ数が0じゃなければ
 			if (ComboTotalCount_ != ZERO)
 			{
-				//ワイド文字列に変換
-				wchar_t wtext[FILENAME_MAX];
-				std::string text = std::to_string(ComboTotalCount_) + "コンボ";
-				size_t ret;
-				setlocale(LC_ALL, ".932");
-				mbstowcs_s(&ret, wtext, text.c_str(), strlen(text.c_str()));
-
 				//コンボ描画
-				pComboText_->Draw(comboPositiom_.x, comboPositiom_.y, wtext);
+				pComboText_->Draw(comboPositiom_.x, comboPositiom_.y, L"コンボ", 1);
+				pComboNumText_->NumberDraw(numberPositiom_.x, numberPositiom_.y, ComboTotalCount_, scale_);
 			}
 
 			//コインの取得数の表示
@@ -274,4 +280,7 @@ namespace GameManager
 
     //コンボ加算
 	void GameManager::AddCombo() { ComboTotalCount_++; }
+
+	//文字の拡大率をセット
+	void GameManager::SetTextScale(const float& scale) { scale_ = scale; }
 }

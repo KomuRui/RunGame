@@ -37,7 +37,7 @@ class Player : public GameObject
 
     int   hModel_;                          //モデル番号
 	int   hPictWind_;                       //風の画像番号
-	int   hPictWind2_;                      //風の画像番号
+	int   hPictWind2_;                      //風の画像番号2
 	int   rotationCount_;                   //回転してからどのくらいのフレームがたったか
 
 	bool  normalFlag_;                      //法線を調べるかどうか
@@ -311,9 +311,6 @@ public:
 	/// </summary>
 	void SetRunMode(bool flag) {
 		runMode_ = flag;
-
-		//ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
-
 		ARGUMENT_INITIALIZE(camLong_, true);
 	}
 };

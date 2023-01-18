@@ -97,5 +97,10 @@ namespace GameManager
 	/// コンボ加算
 	/// </summary>
 	void AddCombo();
+
+	/// <summary>
+	/// 文字の拡大率をセット
+	/// </summary>
+	void SetTextScale(const float& scale);
 };
 
