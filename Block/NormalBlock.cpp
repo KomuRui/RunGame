@@ -6,12 +6,13 @@ namespace
 	static const float RAY_HIT_DISTANCE = 1.0f;				//レイの当たった距離
 	static const float GRAVITY_STRENGTH = 0.083f;           //重力の強さ
 	static const float NORMAL_INTERPOLATION_FACTOR = 0.045; //法線を補間するときの補間係数
+	static const float ADD_ROTATION_VALUE = 0.05f;          //回転するときの加算する角度
 	static const int MAX_NORMAL_RADIANS = 50;               //法線との最大角度
 }
 
 //コンストラクタ
 NormalBlock::NormalBlock(GameObject* parent)
-	:Block(parent, "Stage/Block/Normalblock.fbx", "NormalBlock") {}
+	:Block(parent, "Stage/Block/Normalblock.fbx", "NormalBlock"), rotationAngle_(ZERO){}
 
 //更新の前に一度だけ呼ばれる関数
 void NormalBlock::BlockChildStartUpdate()
@@ -37,7 +38,15 @@ void NormalBlock::BlockChildUpdate()
 	//ステージとの当たり判定
 	StageRayCast(downData);
 
-	transform_.mmRotate_ *= XMMatrixRotationAxis(STRAIGHT_VECTOR, 2);
+	//回転
+	transform_.mmRotate_ *= XMMatrixRotationAxis(STRAIGHT_VECTOR, rotationAngle_);
+
+	//Angleが360までいったら0に戻す
+	if (rotationAngle_ > TWOPI_DEGREES)
+		rotationAngle_ = ZEROPI_DEGREES;
+
+	//加算
+	rotationAngle_ += ADD_ROTATION_VALUE;
 }
 
 //真下の法線を調べてキャラの上軸を決定する

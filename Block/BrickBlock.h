@@ -12,4 +12,9 @@ public:
 	//コンストラクタ
 	BrickBlock(GameObject* parent, std::string modelPath, std::string name) :Block(parent, modelPath, name) {}
 
+	//コンストラクタ
+	BrickBlock(GameObject* parent);
+
+	//更新の前に一度だけ呼ばれる関数
+	void BlockChildStartUpdate() override;
 };

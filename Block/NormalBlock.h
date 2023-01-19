@@ -7,6 +7,9 @@
 class NormalBlock : public Block
 {
 
+	//回転角度
+	float rotationAngle_;
+
 public:
 
 	//コンストラクタ

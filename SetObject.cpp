@@ -4,6 +4,7 @@
 #include "Gimmick/Coin.h"
 #include "Enemy/PigEnemy.h"
 #include "Block/NormalBlock.h"
+#include "Block/BrickBlock.h"
 #include "Manager/GameManager/GameManager.h"
 
 //定数
@@ -98,7 +99,7 @@ void SetObject::Generation()
     //オブジェクトの位置を求める
     XMFLOAT3 pos = Float3Add(transform_.position_, VectorToFloat3(v));
     
-    int num = rand() % 3;
+    int num = rand() % 4;
 
     //コイン
     if (num == 0)
@@ -125,5 +126,10 @@ void SetObject::Generation()
     {
         NormalBlock* pNormalBlock = Instantiate<NormalBlock>(GetParent());
         pNormalBlock->SetPosition(pos);
+    }
+    else if (num == 3)
+    {
+        BrickBlock* pBrickBlock = Instantiate<BrickBlock>(GetParent());
+        pBrickBlock->SetPosition(transform_.position_);
     }
 }
