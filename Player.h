@@ -311,6 +311,10 @@ public:
 	/// </summary>
 	void SetRunMode(bool flag) {
 		runMode_ = flag;
+
+		if (camLong_)
+			vCam_ = XMVectorSet(ZERO, 5, -35, ZERO);
+
 		ARGUMENT_INITIALIZE(camLong_, true);
 	}
 };

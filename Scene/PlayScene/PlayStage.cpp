@@ -41,7 +41,7 @@ void PlayStage::Initialize()
 	Model::SetBrightness(hModel_[Base], 0.5f);
 
 	//PolyModel‚ğ“§–¾‚Éİ’è(²‚ğŠm”F‚·‚é‚½‚ß‚¾‚¯‚Ég‚¤‚½‚ß)
-	Model::SetAlpha(hModel_[PolyModel], 0);
+	//Model::SetAlpha(hModel_[PolyModel], 0);
 
 	//‰æŠp
 	Camera::SetFieldAngle(fieldAngle_);

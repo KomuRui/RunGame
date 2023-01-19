@@ -165,10 +165,6 @@ void PigEnemy::Die()
 
 	//死ぬエフェクト
 	EnemyEffectManager::DieEffect(effectNum_, transform_.position_, up_);
-	GameManager::GetpPlayer()->SetRunSpeed(8.0f);
-	GameManager::GetpPlayer()->SetRunMode(true);
-	GameManager::AddCombo();
-	GameManager::SetTextScale(2.5f);
 
 	//描画しない
 	Invisible();
@@ -202,7 +198,11 @@ void PigEnemy::OnCollision(GameObject* pTarget)
 		//もしPlayerが回転していたらかつ自身が死んでいないなら
 		if (GameManager::GetpPlayer()->IsRotation() && pState_ != EnemyStateList::GetEnemyKnockBackState() && pState_ != EnemyStateList::GetEnemyDieState())
 		{
-
+			GameManager::GetpPlayer()->SetRunSpeed(8.0f);
+			GameManager::GetpPlayer()->SetRunMode(true);
+			GameManager::AddCombo();
+			GameManager::SetTextScale(2.5f);
+			
 			//当たった位置を調べる
 			XMFLOAT3 hitPos = VectorToFloat3(XMLoadFloat3(&transform_.position_) + (XMVector3Normalize(XMLoadFloat3(new XMFLOAT3(GameManager::GetpPlayer()->GetPosition())) - XMLoadFloat3(&transform_.position_)) * GetColliderRadius()));
 

@@ -2,8 +2,8 @@
 #include "Engine/Fbx.h"
 #include "Engine/Model.h"
 #include "Gimmick/Coin.h"
-#include "Enemy/DropEnemy.h"
 #include "Enemy/PigEnemy.h"
+#include "Block/NormalBlock.h"
 #include "Manager/GameManager/GameManager.h"
 
 //定数
@@ -97,18 +97,33 @@ void SetObject::Generation()
 
     //オブジェクトの位置を求める
     XMFLOAT3 pos = Float3Add(transform_.position_, VectorToFloat3(v));
-
     
-    int num = rand() % 2;
+    int num = rand() % 3;
 
+    //コイン
     if (num == 0)
     {
         Coin* pCoin = Instantiate<Coin>(GetParent());
         pCoin->SetPosition(pos);
     }
+    //豚の敵
     else if (num == 1)
     {
-        PigEnemy* pCoin = Instantiate<PigEnemy>(GetParent());
-        pCoin->SetPosition(pos);
+        //何体出現するか
+        int r = Random(1, 3);
+
+        //r体分出現させる
+        for (int i = 0; i < r; i++)
+        {
+            pos.z += i * 8;
+            PigEnemy* pCoin = Instantiate<PigEnemy>(GetParent());
+            pCoin->SetPosition(pos); 
+        }
+    }
+    //ブロック
+    else if (num == 2)
+    {
+        NormalBlock* pNormalBlock = Instantiate<NormalBlock>(GetParent());
+        pNormalBlock->SetPosition(pos);
     }
 }

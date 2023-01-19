@@ -53,6 +53,18 @@ public:
 	void TimeMethod() override;
 
 	/// <summary>
+	/// 真下の法線を調べてキャラの上軸を決定する
+	/// </summary>
+	/// <param name="data">当たり判定に必要なデータ</param>
+	void CheckUnderNormal(const RayCastData& data);
+
+	/// <summary>
+	/// レイで当たり判定(3D用)
+	/// </summary>
+	/// <param name="data">当たり判定に必要なデータ</param>
+	void StageRayCast(const RayCastData& data);
+
+	/// <summary>
 	/// ブロックからコイン出た時の挙動
 	/// </summary>
 	void BlockCoinBehavior();

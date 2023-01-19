@@ -31,9 +31,6 @@ void Block::ChildStartUpdate()
 	//初期値のポジション設定
 	ARGUMENT_INITIALIZE(initialPos_,transform_.position_);
 
-	//レイの当たり判定になるように設定
-	Model::SetRayFlag(hModel_, true);
-
 	//自身を追加
 	Model::SetBlockObj(hModel_, this);
 

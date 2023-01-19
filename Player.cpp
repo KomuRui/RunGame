@@ -267,7 +267,7 @@ void Player::CameraBehavior()
             ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, XMVectorSet(ZERO, 5, -55, ZERO), 0.1f));
 
             //‹——£‚ª1ˆÈ“à‚È‚ç
-            if (RangeCalculation(vCam_, XMVectorSet(ZERO, 5, -55, ZERO)) < 1)
+            if (RangeCalculation(vCam_, XMVectorSet(ZERO, 5, -55, ZERO)) < 1.0f)
             {
                 ARGUMENT_INITIALIZE(camLong_, false);
                 ARGUMENT_INITIALIZE(runSpeed_, 5.0f);
@@ -281,7 +281,7 @@ void Player::CameraBehavior()
             ARGUMENT_INITIALIZE(vCam_, XMVectorLerp(vCam_, camVec_[camStatus_], 0.1f));
 
             //‹——£‚ª1ˆÈ“à‚È‚ç
-            if (RangeCalculation(vCam_, camVec_[camStatus_]) < 1)
+            if (RangeCalculation(vCam_, camVec_[camStatus_]) < 1.0f)
             {
                 ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
                 ARGUMENT_INITIALIZE(camLong_, true);
