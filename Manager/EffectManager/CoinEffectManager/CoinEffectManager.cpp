@@ -22,7 +22,22 @@ namespace CoinEffectManager
 		return (int)pEffectData_.size() - 1;
 	}
 
-	//‰ğ•ú
+	/// <summary>
+	/// ‰ğ•ú
+	/// </summary>
+	void Release(const int& handle)
+	{
+		for (int i = 0; i < pEffectData_.size(); i++)
+		{
+			if ( i != handle)
+			{
+				pEffectData_[i]->KillMe();
+				break;
+			}
+		}
+	}
+
+	//‚·‚×‚Ä‰ğ•ú
 	void AllRelease()
 	{
 		//íœ

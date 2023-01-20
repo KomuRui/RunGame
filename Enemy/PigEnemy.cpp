@@ -71,6 +71,10 @@ void PigEnemy::EnemyChildUpdate()
 {
 	//コライダーのポジション変更
 	SetPosCollider(XMFLOAT3(ZERO, XMVectorGetY(XMVector3Normalize(vNormal_)), ZERO));
+
+	//Playerより後ろに行ったら死亡
+	if (transform_.position_.z < GameManager::GetpPlayer()->GetPosition().z - 5)
+		KillMe();
 }
 
 //Playerが自身の上にいるかどうか

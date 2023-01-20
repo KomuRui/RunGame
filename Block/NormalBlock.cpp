@@ -47,6 +47,11 @@ void NormalBlock::BlockChildUpdate()
 
 	//加算
 	rotationAngle_ += ADD_ROTATION_VALUE;
+
+
+	//Playerより後ろに行ったら死亡
+	if (transform_.position_.z < GameManager::GetpPlayer()->GetPosition().z - 5)
+		KillMe();
 }
 
 //真下の法線を調べてキャラの上軸を決定する

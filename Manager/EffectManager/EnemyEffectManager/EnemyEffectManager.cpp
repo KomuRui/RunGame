@@ -22,6 +22,23 @@ namespace EnemyEffectManager
 		return (int)pEffectData_.size() - 1;
 	}
 
+
+	/// <summary>
+	/// ‰ð•ú
+	/// </summary>
+	void Release(const int& handle)
+	{
+		for (int i = 0; i < pEffectData_.size(); i++)
+		{
+			//‚·‚Å‚ÉŠJ‚¢‚Ä‚¢‚éê‡
+			if (i != handle && pEffectData_[i] == pEffectData_[handle])
+			{
+				pEffectData_[i]->KillMe();
+				break;
+			}
+		}
+	}
+
 	//‰ð•ú
 	void AllRelease()
 	{

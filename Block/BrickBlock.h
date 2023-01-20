@@ -15,6 +15,9 @@ public:
 	//コンストラクタ
 	BrickBlock(GameObject* parent);
 
+	//更新
+	void BlockChildUpdate() override;
+
 	//更新の前に一度だけ呼ばれる関数
 	void BlockChildStartUpdate() override;
 };

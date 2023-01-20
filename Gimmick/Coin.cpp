@@ -26,7 +26,7 @@ Coin::Coin(GameObject* parent, std::string modelPath, std::string name)
 
 //コンストラクタ
 Coin::Coin(GameObject* parent)
-	: Mob(parent, "Stage/Gimmick/Coin.fbx", "Coin"), type_(RotationType), sign_(1), timeMethodStatus_(SignChange), effectNumber_(-1)
+	: Mob(parent, "Stage/Gimmick/Coin.fbx", "Coin"), type_(RotationType), sign_(1), timeMethodStatus_(Kill), effectNumber_(-1)
 {
 }
 
@@ -37,10 +37,8 @@ void Coin::ChildStartUpdate()
 	Model::SetBrightness(hModel_, 1.0f);
 
 	//エフェクト
-	ARGUMENT_INITIALIZE(effectNumber_, CoinEffectManager::Add(GetParent()));
+	ARGUMENT_INITIALIZE(effectNumber_, CoinEffectManager::Add(this));
 
-	//仮
-	//transform_.scale_ = { 2,2,2 };
 
 	//コライダー追加
 	SphereCollider* collision = new SphereCollider(XMFLOAT3(ZERO, XMVectorGetY(XMVector3Normalize(vNormal_)) * COLLIDER_POS_Y * transform_.scale_.y, ZERO), COLLIDER_RADIUS * transform_.scale_.y);
@@ -82,6 +80,10 @@ void Coin::ChildUpdate()
 
 	//ステージとの当たり判定
 	StageRayCast(downData);
+
+	//Playerより後ろに行ったら死亡
+	if (transform_.position_.z < GameManager::GetpPlayer()->GetPosition().z - 5 && this->IsVisibled())
+		KillMe();
 }
 
 //真下の法線を調べてキャラの上軸を決定する
@@ -160,6 +162,11 @@ void Coin::Rotation()
 		angle_ = ZEROPI_DEGREES;
 }
 
+//開放
+void Coin::ChildRelease()
+{
+}
+
 //指定した時間で呼ばれるメソッド
 void Coin::TimeMethod()
 {
@@ -175,9 +182,6 @@ void Coin::TimeMethod()
 	//自身削除状態なら
 	else if (timeMethodStatus_ == Kill)
 	{
-		//所有コインの量を増やす(コインの大きさによって増やす量変える)
-		CoinManager::AddCoin(transform_.scale_.y);
-
 		//自身の削除
 		KillMe();
 	}
@@ -187,7 +191,7 @@ void Coin::TimeMethod()
 void Coin::OnCollision(GameObject* pTarget)
 {
 	//Player以外なら何もしない
-	if (pTarget->GetObjectName() != "Player")
+	if (pTarget->GetObjectName() != "Player" || !this->IsVisibled())
 		return;
 
 	//エフェクト表示
@@ -196,6 +200,9 @@ void Coin::OnCollision(GameObject* pTarget)
 	//所有コインの量を増やす(コインの大きさによって増やす量変える)
 	CoinManager::AddCoin(transform_.scale_.y);
 
-	//自身の削除
-	KillMe();
+	//描画しない
+	Invisible();
+
+	//1秒後に自身を削除
+	SetTimeMethod(1.0f);
 }

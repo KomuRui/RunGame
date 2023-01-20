@@ -17,6 +17,11 @@ namespace CoinEffectManager
 	/// <summary>
 	/// ‰ð•ú
 	/// </summary>
+	void Release(const int& handle);
+
+	/// <summary>
+	/// ‘S‚Ä‰ð•ú
+	/// </summary>
 	void AllRelease();
 
 	/// <summary>

@@ -17,6 +17,11 @@ namespace EnemyEffectManager
 	/// <summary>
 	/// ‰ð•ú
 	/// </summary>
+	void Release(const int& handle);
+
+	/// <summary>
+	/// ‰ð•ú
+	/// </summary>
 	void AllRelease();
 
 	/// <summary>

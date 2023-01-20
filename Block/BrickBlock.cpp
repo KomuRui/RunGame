@@ -12,3 +12,12 @@ void BrickBlock::BlockChildStartUpdate()
 
 	Model::SetBrightness(hModel_, 1.0f);
 }
+
+
+//XV
+void BrickBlock::BlockChildUpdate()
+{
+	//Player‚æ‚èŒã‚ë‚És‚Á‚½‚ç€–S
+	if (transform_.position_.z < GameManager::GetpPlayer()->GetPosition().z - 5)
+		KillMe();
+}
