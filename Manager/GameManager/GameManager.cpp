@@ -73,11 +73,11 @@ namespace GameManager
 		pComboNumText_->Initialize("Text/NumberFont.png", 128, 256, 10);
 
 		//テキストのポジション設定
-		comboPositiom_.x = 1350;
-		comboPositiom_.y = 200;
+		comboPositiom_.x = 1450;
+		comboPositiom_.y = 400;
 
 		//数字のポジション設定
-		numberPositiom_.x = 1200;
+		numberPositiom_.x = 1600;
 		numberPositiom_.y = 200;
 	}
 
