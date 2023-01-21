@@ -116,6 +116,12 @@ bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
 				//Yを少しずらす
 				py -= 0.1f;
 			}
+			//空白ならずらす
+			else if (str[i] == ' ')
+			{
+				//次の位置にずらす
+				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + 0.005;
+			}
 			else
 			{
 				//表示したい文字が、画像の何番目に書いてあるかを求める
@@ -201,6 +207,12 @@ void Text::Draw(int x, int y, const wchar_t* str, float ratio)
 
 			//Yを少しずらす
 			py -= 0.1f;
+		}
+		//空白ならずらす
+		else if (str[i] == ' ')
+		{
+			//次の位置にずらす
+			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + 0.005;
 		}
 		else
 		{

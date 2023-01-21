@@ -205,7 +205,7 @@ void PigEnemy::OnCollision(GameObject* pTarget)
 			GameManager::GetpPlayer()->SetRunSpeed(8.0f);
 			GameManager::GetpPlayer()->SetRunMode(true);
 			GameManager::AddCombo();
-			GameManager::SetTextScale(2.5f);
+			GameManager::SetTextScale(1.3f);
 			
 			//“–‚½‚Á‚½ˆÊ’u‚ð’²‚×‚é
 			XMFLOAT3 hitPos = VectorToFloat3(XMLoadFloat3(&transform_.position_) + (XMVector3Normalize(XMLoadFloat3(new XMFLOAT3(GameManager::GetpPlayer()->GetPosition())) - XMLoadFloat3(&transform_.position_)) * GetColliderRadius()));
