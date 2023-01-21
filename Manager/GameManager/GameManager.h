@@ -102,5 +102,10 @@ namespace GameManager
 	/// 文字の拡大率をセット
 	/// </summary>
 	void SetTextScale(const float& scale);
+
+	/// <summary>
+	/// コンボの数リセット
+	/// </summary>
+	void ComboReset();
 };
 

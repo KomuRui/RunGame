@@ -286,6 +286,7 @@ void Player::CameraBehavior()
                 ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
                 ARGUMENT_INITIALIZE(camLong_, true);
                 ARGUMENT_INITIALIZE(runMode_, false);
+                GameManager::ComboReset();
             }
         }
 

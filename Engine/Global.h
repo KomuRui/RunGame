@@ -1,5 +1,9 @@
 #pragma once
 #include "Direct3D.h"
+#include <sstream>
+#include <iomanip>
+
+using namespace std;
 
 //安全にメモリを開放するためのマクロ
 #define SAFE_DELETE(p) {if ((p)!=nullptr) { delete (p); (p)=nullptr;}}
@@ -113,4 +117,14 @@ static float GetPrivateProfilefloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTST
 		return strtof(caption, NULL);   //取った情報を返す
 	else
 		return strtof(lpDefault, NULL); //Defaultの情報を返す
+}
+
+static std::string float_to_string(float f, int digits)
+{
+	ostringstream oss;
+
+	oss << setprecision(digits) << setiosflags(ios::fixed) << f;
+
+	return oss.str();
+
 }

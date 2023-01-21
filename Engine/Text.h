@@ -16,9 +16,10 @@ class Text
 
 	//////////////////////////表示/////////////////////////////
 
-	float speed_;      //文字の表示する間隔の速度
-	int fpsCount_;     //フレームのカウント
-	int totalDrawNum_; //描画していい総数
+	float textInterval_; //文字の間隔
+	float speed_;        //文字の表示する間隔の速度
+	int fpsCount_;       //フレームのカウント
+	int totalDrawNum_;   //描画していい総数
 
 public:
 	Text();
@@ -28,7 +29,7 @@ public:
 	/// 初期化（デフォルトの設定）
 	/// </summary>
 	/// <returns>成功／失敗</returns>
-	HRESULT Initialize(float speed = 1.0f);
+	HRESULT Initialize(float textInterval = 0.005f,float speed = 1.0f);
 
 	/// <summary>
 	/// 初期化（オリジナルの画像を使いたい時）
@@ -38,7 +39,7 @@ public:
 	/// <param name="charHeight">画像の１文字の高さ（ピクセル）</param>
 	/// <param name="rowLength">画像の中に横に何文字並んでいるか</param>
 	/// <returns>成功／失敗</returns>
-	HRESULT Initialize(const char* fileName, const unsigned int charWidth, const unsigned int charHeight, const unsigned int rowLength, float speed = 1.0f);
+	HRESULT Initialize(const char* fileName, const unsigned int charWidth, const unsigned int charHeight, const unsigned int rowLength, float textInterval = 0.005f, float speed = 1.0f);
 
 
 	/// <summary>

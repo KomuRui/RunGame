@@ -5,9 +5,12 @@
 #include "../../Engine/Camera.h"
 #include "../../SetObject.h"
 #include "../../Player.h"
+#include "../../MiniGameTime.h"
 #include "../../Engine/Model.h"
+#include "../../Engine/ImGuiSet.h"
 #include "../../Engine/Light.h"
 #include "../../Engine/CreateStage.h"
+#include "../../Engine/Time.h"
 #include "../../OtherObject/TitleModel.h"
 #include "../PlayScene/PlayStage.h"
 

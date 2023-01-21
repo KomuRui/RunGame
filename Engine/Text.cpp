@@ -4,7 +4,8 @@
 #include "Global.h"
 #include "../Manager/TextManager/TextManager.h"
 
-Text::Text() : hPict_(-1), width_(128), height_(256), fileName_("Text/MainFont.png"), rowLength_(16), speed_(1.0f), fpsCount_(0), totalDrawNum_(1)
+Text::Text() : hPict_(-1), width_(128), height_(256), fileName_("Text/MainFont.png"),
+rowLength_(16), speed_(1.0f), fpsCount_(0), totalDrawNum_(1), textInterval_(0.005f)
 {
 }
 
@@ -13,7 +14,7 @@ Text::~Text()
 }
 
 //初期化（デフォルト）
-HRESULT Text::Initialize(float speed)
+HRESULT Text::Initialize(float textInterval,float speed)
 {
 	//画像のロード
 	hPict_ = Image::Load(fileName_);
@@ -21,12 +22,13 @@ HRESULT Text::Initialize(float speed)
 
 	//60FPSと仮定する
 	speed_ = speed * 60; 
+	textInterval_ = textInterval;
 
 	return S_OK;
 }
 
 //初期化（オリジナルの画像）
-HRESULT Text::Initialize(const char* fileName, const unsigned int charWidth, const unsigned int charHeight, const unsigned int rowLength, float speed)
+HRESULT Text::Initialize(const char* fileName, const unsigned int charWidth, const unsigned int charHeight, const unsigned int rowLength, float textInterval, float speed)
 {
 	strcpy_s(fileName_, fileName);
 	width_ = charWidth;
@@ -81,7 +83,7 @@ void Text::NumberDraw(int x, int y, const char* str, float ratio)
 		Image::Draw(hPict_);
 
 		//次の位置にずらす
-		px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) - 0.05;
+		px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) - textInterval_;
 	}
 }
 
@@ -120,7 +122,7 @@ bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
 			else if (str[i] == ' ')
 			{
 				//次の位置にずらす
-				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + 0.005;
+				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + textInterval_;
 			}
 			else
 			{
@@ -149,7 +151,7 @@ bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
 				Image::Draw(hPict_);
 
 				//次の位置にずらす
-				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + 0.005;
+				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + textInterval_;
 			}
 		}
 		else
@@ -212,7 +214,7 @@ void Text::Draw(int x, int y, const wchar_t* str, float ratio)
 		else if (str[i] == ' ')
 		{
 			//次の位置にずらす
-			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + 0.005;
+			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + textInterval_;
 		}
 		else
 		{
@@ -241,7 +243,7 @@ void Text::Draw(int x, int y, const wchar_t* str, float ratio)
 			Image::Draw(hPict_);
 
 			//次の位置にずらす
-			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + 0.005;
+			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + textInterval_;
 		}
 	}
 }

@@ -180,6 +180,7 @@
     <ClCompile Include="Manager\EffectManager\PlayerEffectManager\PlayerEffectManager.cpp" />
     <ClCompile Include="Manager\GameManager\GameManager.cpp" />
     <ClCompile Include="Manager\TextManager\TextManager.cpp" />
+    <ClCompile Include="MiniGameTime.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="Mob\MainMob.cpp" />
     <ClCompile Include="Mob\TalkMainMob.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="Manager\EffectManager\PlayerEffectManager\PlayerEffectManager.h" />
     <ClInclude Include="Manager\GameManager\GameManager.h" />
     <ClInclude Include="Manager\TextManager\TextManager.h" />
+    <ClInclude Include="MiniGameTime.h" />
     <ClInclude Include="Mob.h" />
     <ClInclude Include="Mob\MainMob.h" />
     <ClInclude Include="Mob\TalkMainMob.h" />

@@ -2,6 +2,7 @@
 #include "../../Engine/Sprite.h"
 #include "../CoinManager/CoinManager.h"
 #include "../TextManager/TextManager.h"
+#include "../../MiniGameTime.h"
 #include "../../Engine/Text.h"
 #include <cmath>
 
@@ -34,7 +35,7 @@ namespace GameManager
 	XMFLOAT2 comboPositiom_;     //テキストのポジション
 	XMFLOAT2 numberPositiom_;    //数字のポジション
 	int ComboTotalCount_;        //どのくらいコンボしているか
-	int scale_;                  //拡大率
+	float scale_;                //拡大率
 
 
 	///////////////////////////////関数//////////////////////////////////
@@ -47,6 +48,9 @@ namespace GameManager
 
 		//テキストマネージャの初期化
 		TextManager::Initialize();
+
+		//ミニゲームの初期化
+		MiniGameTime::Initialize();
 
 		//変数初期化
 		fadeImage_[SCENE_ID_TITLE] = "Image/Fade/Tutorial1Fade.png";
@@ -77,8 +81,8 @@ namespace GameManager
 		comboPositiom_.y = 400;
 
 		//数字のポジション設定
-		numberPositiom_.x = 1600;
-		numberPositiom_.y = 200;
+		numberPositiom_.x = 1590;
+		numberPositiom_.y = 260;
 	}
 
 	//シーン遷移の時の初期化
@@ -111,6 +115,9 @@ namespace GameManager
 				pComboText_->Draw(comboPositiom_.x, comboPositiom_.y, L"COMBO", 0.5f);
 				pComboNumText_->NumberDraw(numberPositiom_.x, numberPositiom_.y, ComboTotalCount_, scale_);
 			}
+
+			//ミニゲーム時間の表示
+			MiniGameTime::Draw();
 
 			//コインの取得数の表示
 			CoinManager::Draw();
@@ -283,4 +290,7 @@ namespace GameManager
 
 	//文字の拡大率をセット
 	void GameManager::SetTextScale(const float& scale) { scale_ = scale; }
+
+	//コンボの数リセット
+	void GameManager::ComboReset() { ComboTotalCount_ = ZERO; }
 }

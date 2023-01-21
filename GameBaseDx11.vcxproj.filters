@@ -330,6 +330,7 @@
     <ClCompile Include="Engine\Time.cpp">
       <Filter>01Engine</Filter>
     </ClCompile>
+    <ClCompile Include="MiniGameTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -573,6 +574,7 @@
     <ClInclude Include="Engine\Time.h">
       <Filter>01Engine</Filter>
     </ClInclude>
+    <ClInclude Include="MiniGameTime.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
