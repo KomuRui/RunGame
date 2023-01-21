@@ -16,13 +16,16 @@
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
-	: GameObject(parent, "PlayScene")
+	: GameObject(parent, "PlayScene"), startCount_(3), pStartCountText_(new Text)
 {
 }
 
 //初期化
 void PlayScene::Initialize()
 {
+	//文字初期化
+	pStartCountText_->Initialize("Text/NumberFont.png", 128, 256, 10);
+
 	//これから使うステージのポインタをGameManagerにセット
 	GameManager::SetpStage(Instantiate<PlayStage>(this));
 
@@ -49,6 +52,7 @@ void PlayScene::Update()
 //描画
 void PlayScene::Draw()
 {
+	pStartCountText_->NumberDraw(960, 540, startCount_, 5.0f);
 }
 
 //開放

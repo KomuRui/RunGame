@@ -1,9 +1,16 @@
 #pragma once
 #include "../../Engine/GameObject.h"
+#include "../../Engine/Text.h"
 
 //Playシーンを管理するクラス
 class PlayScene : public GameObject
 {
+
+	//スタートするまでのカウントを表示するための文字表示変数
+	Text* pStartCountText_;
+
+	//スタートするまでのカウント
+	int startCount_;
 
 public:
 
