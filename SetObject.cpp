@@ -5,6 +5,7 @@
 #include "Enemy/PigEnemy.h"
 #include "Block/NormalBlock.h"
 #include "Block/BrickBlock.h"
+#include "MiniGameTime.h"
 #include "Manager/GameManager/GameManager.h"
 
 //定数
@@ -50,8 +51,9 @@ void SetObject::StartUpdate()
 //更新
 void SetObject::Update()
 {
-    //オブジェクト生成
-    ObjectGeneration();
+    //ミニゲームがスタートしているのならオブジェクト生成
+    if (MiniGameTime::IsStart())
+        ObjectGeneration();
 
     //Zの位置更新
     ARGUMENT_INITIALIZE(transform_.position_.z, GameManager::GetpPlayer()->GetPosition().z + Z_DISTANCE);

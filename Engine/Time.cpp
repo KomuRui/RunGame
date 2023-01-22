@@ -82,6 +82,11 @@ namespace Time
 		Lock_ = false;
 	}
 
+	bool GetLock()
+	{
+		return Lock_;
+	}
+
 	int GetTimei()
 	{
 		return (int)Seconds_;

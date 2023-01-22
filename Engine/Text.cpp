@@ -40,7 +40,7 @@ HRESULT Text::Initialize(const char* fileName, const unsigned int charWidth, con
 
 
 //描画（文字列:数字）
-void Text::NumberDraw(int x, int y, const char* str, float ratio)
+void Text::NumberDraw(int x, int y, const char* str, float ratio, float textInterval)
 {
 	//表示位置（左上）を計算
 	//Spriteクラスは中心が(0,0)、右上が(1,1)という座標だが、ここの引数は左上を(0,0)、ドット単位で指定している
@@ -83,12 +83,12 @@ void Text::NumberDraw(int x, int y, const char* str, float ratio)
 		Image::Draw(hPict_);
 
 		//次の位置にずらす
-		px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) - textInterval_;
+		px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) - textInterval;
 	}
 }
 
 //描画（文字列）一文字ごとに徐々に表示する
-bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
+bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio, float textInterval)
 {
 	//表示位置（左上）を計算
 	//Spriteクラスは中心が(0,0)、右上が(1,1)という座標だが、ここの引数は左上を(0,0)、ドット単位で指定している
@@ -122,7 +122,7 @@ bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
 			else if (str[i] == ' ')
 			{
 				//次の位置にずらす
-				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + textInterval_;
+				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + textInterval;
 			}
 			else
 			{
@@ -151,7 +151,7 @@ bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
 				Image::Draw(hPict_);
 
 				//次の位置にずらす
-				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + textInterval_;
+				px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + textInterval;
 			}
 		}
 		else
@@ -183,7 +183,7 @@ bool Text::SlowlyDraw(int x, int y, const wchar_t* str, float ratio)
 /// <param name="str">表示したい文字列</param>
 /// <param name="ratio">表示する文字の倍率</param>
 /// <returns>trueなら最後まで描画されている,falseなら最後まで描画されていない</returns>
-void Text::Draw(int x, int y, const wchar_t* str, float ratio)
+void Text::Draw(int x, int y, const wchar_t* str, float ratio, float textInterval)
 {
 	//表示位置（左上）を計算
 	//Spriteクラスは中心が(0,0)、右上が(1,1)という座標だが、ここの引数は左上を(0,0)、ドット単位で指定している
@@ -214,7 +214,7 @@ void Text::Draw(int x, int y, const wchar_t* str, float ratio)
 		else if (str[i] == ' ')
 		{
 			//次の位置にずらす
-			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + textInterval_;
+			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f)) + textInterval;
 		}
 		else
 		{
@@ -243,13 +243,13 @@ void Text::Draw(int x, int y, const wchar_t* str, float ratio)
 			Image::Draw(hPict_);
 
 			//次の位置にずらす
-			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + textInterval_;
+			px += (width_ / (float)(Direct3D::screenWidth_ / 2.0f) * transform.scale_.x) + textInterval;
 		}
 	}
 }
 
 //描画（整数値）
-void Text::NumberDraw(int x, int y, int value, float ratio)
+void Text::NumberDraw(int x, int y, int value, float ratio, float textInterval)
 {
 	//文字列に変換
 	char str[256];

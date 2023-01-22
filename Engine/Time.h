@@ -17,6 +17,8 @@ namespace Time
 
 	void UnLock();
 
+	bool GetLock();
+
 	//ŒÄ‚Ño‚µ“_‚ÌŠÔ‚ğæ“¾
 	int GetTimei();
 	float GetTimef();

@@ -50,9 +50,9 @@ public:
 	/// <param name="str">表示したい文字列</param>
 	/// <param name="ratio">表示する文字の倍率</param>
 	/// <returns>trueなら最後まで描画されている,falseなら最後まで描画されていない</returns>
-	bool SlowlyDraw(int x, int y, const wchar_t* str,float ratio = 1.0f);
+	bool SlowlyDraw(int x, int y, const wchar_t* str,float ratio = 1.0f, float textInterval = 0.005f);
 
-	void NumberDraw(int x, int y, const char* str, float ratio = 1.0f);
+	void NumberDraw(int x, int y, const char* str, float ratio = 1.0f, float textInterval = 0.005f);
 
 	/// <summary>
 	/// 描画（整数値）
@@ -61,7 +61,7 @@ public:
 	/// <param name="y">表示位置（左上）</param>
 	/// <param name="value">表示したい値</param>
 	/// <param name="ratio">表示する文字の倍率</param>
-	void NumberDraw(int x, int y, int value, float ratio = 1.0f);
+	void NumberDraw(int x, int y, int value, float ratio = 1.0f, float textInterval = 0.005f);
 
 	/// <summary>
 	/// 描画（文字列）を表示する
@@ -71,7 +71,7 @@ public:
 	/// <param name="str">表示したい文字列</param>
 	/// <param name="ratio">表示する文字の倍率</param>
 	/// <returns>trueなら最後まで描画されている,falseなら最後まで描画されていない</returns>
-	void Draw(int x, int y, const wchar_t* str, float ratio = 1.0f);
+	void Draw(int x, int y, const wchar_t* str, float ratio = 1.0f, float textInterval = 0.005f);
 
 	/// <summary>
 	/// 描画していい総数をセット
