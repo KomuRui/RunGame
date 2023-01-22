@@ -20,6 +20,9 @@ void Block::ChildInitialize()
 {
 	//継承先用
 	BlockChildInitialize();
+
+	//レイの判定にBaseをいれたいのでtrueにしておく
+	Model::SetRayFlag(hModel_, true);
 }
 
 //更新の前に一度だけ呼ばれる関数

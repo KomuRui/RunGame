@@ -31,7 +31,7 @@ namespace PlayerEffectManager
 	}
 
 	//回転エフェクト
-	void RotationEffect(int modelnum)
+	void RotationEffect(const int& modelnum)
 	{
 		XMFLOAT3 Right = Model::GetBonePosition(modelnum, "Right2");//右
 		XMFLOAT3 Left = Model::GetBonePosition(modelnum, "Left2");  //左
@@ -58,7 +58,7 @@ namespace PlayerEffectManager
 	}
 
 	//落下エフェクト
-	void FallEffect(XMFLOAT3 position)
+	void FallEffect(const XMFLOAT3& position)
 	{
 		EmitterData data;
 		data.textureFileName = "Cloud.png";
@@ -76,6 +76,32 @@ namespace PlayerEffectManager
 		data.scale = XMFLOAT2(1.05, 1.05);
 		data.color = XMFLOAT4(1, 1, 1, 0.2);
 		data.deltaColor = XMFLOAT4(0, 0, 0, -0.004);
+		pEffect_->Start(data);
+	}
+
+	/// <summary>
+	/// 死亡ポジション
+	/// </summary>
+	void DieEffect(const XMFLOAT3& position, const XMVECTOR& dir)
+	{
+		EmitterData data;
+		data.textureFileName = "Cloud.png";
+		data.position = position;
+		data.delay = 0;
+		data.number = 350;
+		data.lifeTime = 100;
+		data.positionErr = XMFLOAT3(0.5, 0, 0.5);
+		data.dir = VectorToFloat3(dir);
+		data.dirErr = XMFLOAT3(90, 90, 90);
+		data.speed = 0.25f;
+		data.speedErr = 1;
+		data.accel = 0.93;
+		data.size = XMFLOAT2(0.2, 0.2);
+		data.sizeErr = XMFLOAT2(0.4, 0.4);
+		data.scale = XMFLOAT2(0.99, 0.99);
+		data.color = XMFLOAT4(1, 1, 0.1, 1);
+		data.deltaColor = XMFLOAT4(0, 0, 0, 0);
+		data.gravity = 0.003f;
 		pEffect_->Start(data);
 	}
 }

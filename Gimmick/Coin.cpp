@@ -106,32 +106,14 @@ void Coin::CheckUnderNormal(const RayCastData& data)
 
 //レイ(円用)
 void Coin::StageRayCast(const RayCastData& data)
-{
-	//前
-	RayCastData straightData;
-	straightData.start = transform_.position_;                                                          //レイのスタート位置
-	straightData.dir = VectorToFloat3(XMVector3TransformCoord(STRAIGHT_VECTOR, transform_.mmRotate_));  //レイの方向
-	Model::AllRayCast(hGroundModel_, &straightData);                                                    //レイを発射
-
+{                                                  
 	//////////////////////////////はみ出した分下げる//////////////////////////////////////
-
-	//前の距離が1.0以下なら
-	if (straightData.dist <= RAY_HIT_DISTANCE)
-	{
-		XMVECTOR dis = { ZERO,ZERO,straightData.dist };
-		dis = XMVector3TransformCoord(dis, transform_.mmRotate_);
-		XMStoreFloat3(&transform_.position_, XMLoadFloat3(&transform_.position_) - (XMVector3TransformCoord(STRAIGHT_VECTOR, transform_.mmRotate_) - dis));
-
-		//アニメーション停止
-		Model::SetAnimFlag(hModel_, false);
-	}
 
 	//下の距離が1.0以上かつ重力適用するなら
 	if (data.dist >= RAY_HIT_DISTANCE)
 	{
 		transform_.position_ = Float3Add(transform_.position_, VectorToFloat3((-vNormal_) * GRAVITY_STRENGTH));
 	}
-
 }
 
 

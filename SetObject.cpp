@@ -51,8 +51,11 @@ void SetObject::StartUpdate()
 //更新
 void SetObject::Update()
 {
-    //ミニゲームがスタートしているのならオブジェクト生成
-    if (MiniGameTime::IsStart())
+    //Playerがいなければこの先処理しない
+    if (GameManager::GetpPlayer() == nullptr) return;
+
+    //ミニゲームがスタートしているかつPlayerが死んでいないのならオブジェクト生成
+    if (MiniGameTime::IsStart() && !GameManager::GetpPlayer()->isDie())
         ObjectGeneration();
 
     //Zの位置更新

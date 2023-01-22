@@ -4,7 +4,9 @@
 #include "Engine/Image.h"
 #include <cmath>
 #include "Engine/Light.h"
+#include "Engine/Time.h"
 #include "Engine/BoxCollider.h"
+#include "Engine/ImGuiSet.h"
 #include "Engine/SphereCollider.h"
 #include "Manager/GameManager/GameManager.h"
 #include "Manager/EffectManager/PlayerEffectManager/PlayerEffectManager.h"
@@ -66,7 +68,7 @@ Player::Player(GameObject* parent)
     totalMx_(XMMatrixIdentity()),
     jampRotationPreviousAngle_(ZERO),
     angle_(ZERO),
-    normalFlag_(true),
+    isCheckNormal_(true),
 
     //ジャンプ
     vJamp_(XMVectorSet(ZERO, ZERO, ZERO, ZERO)),
@@ -76,7 +78,8 @@ Player::Player(GameObject* parent)
     pState_(new PlayerStateManager),
     beforePos_(ZERO, ZERO, ZERO),
     runSpeed_(5.0f),
-    runMode_(false),
+    isRunMode_(false),
+    isDie_(false),
 
     ///////////////////カメラ///////////////////////
 
@@ -98,6 +101,7 @@ Player::Player(GameObject* parent)
 //初期化
 void Player::Initialize()
 {
+
     ///////////////Playerの状態初期化///////////////////
 
     PlayerStateManager::playerState_ = PlayerStateManager::playerStanding_;
@@ -171,14 +175,26 @@ void Player::Update()
     //ステージが3Dなら
     if (pstage_->GetthreeDflag())
     {
-        MovingOperation();       //Player操作
+        //死亡しているなら
+        if (isDie_)
+            Die();
+        else
+             MovingOperation();  //Player操作
+
+
         RotationInStage();       //ステージに合わせて回転
         StageRayCast();          //ステージとの当たり判定
     }
     //ステージが疑似2Dなら
     else
     {
-        MovingOperation2D();     //Player操作
+        //死亡しているなら
+        if (isDie_)
+            Die();
+        else
+            MovingOperation2D(); //Player操作
+
+
         RotationInStage2D();     //ステージに合わせて回転
         StageRayCast2D();        //ステージとの当たり判定
     }
@@ -195,7 +211,7 @@ void Player::Draw()
 	Model::Draw(hModel_);
 
     //もし走るモードなら
-    if (runMode_ && camLong_)
+    if (isRunMode_ && camLong_)
     {
         Transform t;
 
@@ -258,7 +274,7 @@ void Player::CameraBehavior()
     }
 
     //走るモードなら
-    if (runMode_)
+    if (isRunMode_)
     {
         //遠距離にする
         if (camLong_)
@@ -285,7 +301,7 @@ void Player::CameraBehavior()
             {
                 ARGUMENT_INITIALIZE(vCam_, camVec_[camStatus_]);
                 ARGUMENT_INITIALIZE(camLong_, true);
-                ARGUMENT_INITIALIZE(runMode_, false);
+                ARGUMENT_INITIALIZE(isRunMode_, false);
                 GameManager::ComboReset();
             }
         }
@@ -357,7 +373,7 @@ void Player::CheckUnderNormal()
     Model::AllRayCast(hGroundModel_, &data);
 
     //法線を調べるかどうかのFlagがtrueなら
-    if (normalFlag_)
+    if (isCheckNormal_)
     {
         //レイが当たっていてかつ少しでも上ベクトルとvNormal_の値が違うのなら
         if (data.hit && (XMVectorGetX(vNormal_) != XMVectorGetX(XMVector3Normalize(XMLoadFloat3(&data.normal))) || XMVectorGetY(-vNormal_) != XMVectorGetY(XMVector3Normalize(XMLoadFloat3(&data.normal))) || XMVectorGetZ(-vNormal_) != XMVectorGetZ(XMVector3Normalize(XMLoadFloat3(&data.normal)))))
@@ -504,6 +520,26 @@ void Player::StageRayCast()
     //前
     if (straightData.dist <= 1.0)
     {
+        //ブロック情報がnullptrじゃないのなら死亡
+        if (straightData.block != nullptr && !isDie_)
+        {
+            //当たった敵削除
+            straightData.block->KillMe();
+
+            //タイムをロックする
+            Time::Lock();
+
+            //エフェクト
+            PlayerEffectManager::DieEffect(transform_.position_, vNormal_);
+
+            //アニメーション
+            Model::SetAnimFrame(hModel_, 70, 130, PLAYER_ANIM_SPEED);
+            Model::SetAnimFlag(hModel_, true);
+
+            //Player死亡
+            ARGUMENT_INITIALIZE(isDie_, true);
+        }
+
         XMVECTOR dis = { ZERO,ZERO,straightData.dist };
         dis = XMVector3TransformCoord(dis, transform_.mmRotate_);
         XMStoreFloat3(&transform_.position_, pos - (XMVector3TransformCoord(STRAIGHT_VECTOR, transform_.mmRotate_) - dis));
@@ -671,6 +707,21 @@ void Player::HitTest2D(RayCastData* data, const XMVECTOR& dir)
     Model::RayCast(hGroundModel_, data);      //レイを発射
 }
 
+//死亡したときに呼ばれる関数
+void Player::Die()
+{
+    //アニメーションが完全に死亡した状態なら
+    if (130 == Model::GetAnimFrame(hModel_))
+    {
+        //自身を削除
+        KillMe();
+
+        //フェードのステータスがFADE_OUT状態じゃなかったら
+        if (GameManager::GetStatus() != FADE_OUT)
+            GameManager::SetStatus(FADE_OUT);
+    }
+}
+
 //継承先用の指定した時間で呼ばれるメソッド
 void Player::TimeMethod()
 {
@@ -687,6 +738,26 @@ void Player::OnCollision(GameObject* pTarget)
         PlayerStateManager::playerState_->Enter(this);
 
         ARGUMENT_INITIALIZE(acceleration_,1);
+    }
+
+    //豚の敵と当たった時回転していないのなら
+    if (pTarget->GetObjectName() == "PigEnemy" && !IsRotation())
+    {
+        //当たった敵削除
+        pTarget->KillMe();
+
+        //タイムをロックする
+        Time::Lock();
+
+        //エフェクト
+        PlayerEffectManager::DieEffect(transform_.position_, vNormal_);
+
+        //アニメーション
+        Model::SetAnimFrame(hModel_, 70, 130, PLAYER_ANIM_SPEED);
+        Model::SetAnimFlag(hModel_, true);
+
+        //Player死亡
+        ARGUMENT_INITIALIZE(isDie_, true);
     }
 }
 

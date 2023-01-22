@@ -40,8 +40,9 @@ class Player : public GameObject
 	int   hPictWind2_;                      //風の画像番号2
 	int   rotationCount_;                   //回転してからどのくらいのフレームがたったか
 
-	bool  normalFlag_;                      //法線を調べるかどうか
-	bool  runMode_;                         //走るモードかどうか
+	bool  isCheckNormal_;                   //法線を調べるかどうか
+	bool  isRunMode_;                       //走るモードかどうか
+	bool  isDie_;                           //死亡したかどうか
 
 	///////////////カメラ///////////////////
 
@@ -166,6 +167,11 @@ public:
 	void MovingOperation2D();
 
 	/// <summary>
+	/// 死亡したときに呼ばれる関数
+	/// </summary>
+	void Die();
+
+	/// <summary>
 	/// 指定した時間で呼ばれるメソッド
 	/// </summary>
 	void TimeMethod() override;
@@ -192,7 +198,7 @@ public:
 	/// キャラが下の法線調べるかどうかをセット
 	/// </summary>
 	/// <param name="flag">調べるならtrue,調べないならfalse</param>
-	void SetCheckNormal(const bool& flag) { normalFlag_ = flag; }
+	void SetCheckNormal(const bool& flag) { isCheckNormal_ = flag; }
 
 	/// <summary>
 	/// カメラ動作しているかどうか
@@ -310,12 +316,24 @@ public:
 	/// 走るモードセット
 	/// </summary>
 	void SetRunMode(bool flag) {
-		runMode_ = flag;
+		isRunMode_ = flag;
 
 		if (camLong_)
 			vCam_ = XMVectorSet(ZERO, 5, -35, ZERO);
 
 		ARGUMENT_INITIALIZE(camLong_, true);
 	}
+
+	/// <summary>
+	/// プレイヤーが死んだかどうか
+	/// </summary>
+	/// <returns>trueなら死んでいる</returns>
+	bool isDie() { return isDie_; }
+
+	/// <summary>
+	/// プレイヤーが死んだかどうかセット
+	/// </summary>
+	/// <param name="flag">trueなら死んだ</param>
+	void SetDie(const bool& flag) { isDie_ = flag; }
 };
 
