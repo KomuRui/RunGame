@@ -1,6 +1,7 @@
 #include "PigEnemy.h"
 #include "../Engine/Model.h"
 #include "../Engine/Camera.h"
+#include "../Engine/ImGuiSet.h"
 #include "../Manager/EffectManager/EnemyEffectManager/EnemyEffectManager.h"
 
 //’è”
@@ -116,10 +117,10 @@ void PigEnemy::KnockBackDie()
 	RayCastData data;
 	data.start = transform_.position_;    
 	XMStoreFloat3(&data.dir, -XMVector3Normalize(XMLoadFloat3(new XMFLOAT3(GameManager::GetpPlayer()->GetPosition())) - XMLoadFloat3(&transform_.position_)));
-	Model::RayCast(hGroundModel_, &data);  
+	Model::AllRayCast(hGroundModel_, &data);  
 
 	//–„‚Ü‚Á‚½•ª–ß‚·
-	if (data.dist <= RAY_DISTANCE)
+	if (data.dist <= 5)
 	{
 		//Ž€–Só‘Ô‚É•ÏX
 		ChangeEnemyState(EnemyStateList::GetEnemyDieState());
