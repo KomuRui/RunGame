@@ -325,6 +325,12 @@ public:
 	}
 
 	/// <summary>
+	/// ランモードかどうか取得
+	/// </summary>
+	/// <returns>trueならランモード</returns>
+	bool IsRunMode() { return isRunMode_; }
+
+	/// <summary>
 	/// プレイヤーが死んだかどうか
 	/// </summary>
 	/// <returns>trueなら死んでいる</returns>

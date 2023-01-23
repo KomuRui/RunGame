@@ -3,6 +3,7 @@
 #include "../../Engine/Text.h"
 #include "../../Engine/Global.h"
 #include "../../Engine/Sprite.h"
+#include "../GameManager/GameManager.h"
 
 /// <summary>
 /// Playerの持ってるコイン管理
@@ -66,6 +67,15 @@ namespace CoinManager
 	{
 		//画像
 		{
+			//コインが1枚以上なら
+			if (coinTotalCount > 0)
+			{
+				if(GameManager::GetpPlayer()->IsRunMode())
+					GameManager::GetpPlayer()->SetRunSpeed(5.0f * (1.0f + (coinTotalCount / 100.0f)));
+				else
+					GameManager::GetpPlayer()->SetRunSpeed(8.0f * (1.0f + (coinTotalCount / 100.0f)));
+			}
+
 			//テクスチャのサイズ取得
 			XMFLOAT3 size = pCoinImage->GetTextureSize();
 
