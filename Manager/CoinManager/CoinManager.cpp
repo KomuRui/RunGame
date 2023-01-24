@@ -70,10 +70,10 @@ namespace CoinManager
 			//コインが1枚以上なら
 			if (coinTotalCount > 0)
 			{
-				if(GameManager::GetpPlayer()->IsRunMode())
-					GameManager::GetpPlayer()->SetRunSpeed(5.0f * (1.0f + (coinTotalCount / 100.0f)));
+				if(!GameManager::GetpPlayer()->IsRunMode())
+					GameManager::GetpPlayer()->SetRunSpeed(5.0f * (1.0f + (coinTotalCount * 0.2f)));
 				else
-					GameManager::GetpPlayer()->SetRunSpeed(8.0f * (1.0f + (coinTotalCount / 100.0f)));
+					GameManager::GetpPlayer()->SetRunSpeed(8.0f * (1.0f + (coinTotalCount * 0.2f)));
 			}
 
 			//テクスチャのサイズ取得
