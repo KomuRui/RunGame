@@ -20,7 +20,9 @@ namespace MiniGameTime
 	int startCount_;            //スタートするまでのカウント
 	float startCountTextScale_; //スタートカウント文字の拡大率
 
-	bool isStart_;   //開始しているかどうか
+	MiniGameStatus miniGameStatus_;   //ミニゲームの状態
+	int resultDis_;                   //最終的な結果(距離)
+
 
 	//初期化
 	void MiniGameTime::Initialize()
@@ -36,17 +38,34 @@ namespace MiniGameTime
 		ARGUMENT_INITIALIZE(startCountTextScale_, NORMAL_START_COUNT_SCALE);
 
 		//開始していないに初期化
-		ARGUMENT_INITIALIZE(isStart_, false);
+		ARGUMENT_INITIALIZE(miniGameStatus_, MiniGameStatus::NOT_START);
+
+		//距離初期化
+		ARGUMENT_INITIALIZE(resultDis_, ZERO);
 	}
 
 	//描画
 	void MiniGameTime::Draw()
 	{
-		//開始しているなら
-		if (isStart_)
-			LimitTimeDraw();
-		else
+		switch (miniGameStatus_)
+		{
+		//まだ開始していない
+		case MiniGameStatus::NOT_START:
 			StartCountDraw();
+			break;
+		//ゲーム中
+		case MiniGameStatus::PLAY:
+			LimitTimeDraw();
+			break;
+		//終わり
+		case MiniGameStatus::END:
+			ResultDraw();
+			break;
+
+		default:
+			break;
+		}
+			
 	}
 
 	//制限時間描画
@@ -96,7 +115,7 @@ namespace MiniGameTime
 		else if (startCount_ < ZERO)
 		{
 			//開始
-			ARGUMENT_INITIALIZE(isStart_, true);
+			ARGUMENT_INITIALIZE(miniGameStatus_, MiniGameStatus::PLAY);
 
 			//タイムリセット
 			Time::Reset();
@@ -112,6 +131,31 @@ namespace MiniGameTime
 		}
 	}
 
+	//結果表示
+	void MiniGameTime::ResultDraw()
+	{
+		//ワイド文字列格納用
+		wchar_t wtext[FILENAME_MAX];
+		std::string text = to_string(resultDis_) + "m";
+
+		//ワイド文字列に変換
+		size_t ret;
+		setlocale(LC_ALL, ".932");
+		mbstowcs_s(&ret, wtext, text.c_str(), strlen(text.c_str()));
+
+		//Start描画
+		pTimeText_->Draw(760, 540, wtext, 2.5f, -0.15f);
+	}
+
+	//開始しているかをセット
+	void SetMiniGameStatus(MiniGameStatus status) { miniGameStatus_ = status; }
+
+	//ミニゲームの状態をゲット
+	MiniGameStatus  MiniGameTime::GetMiniGameStatus() { return miniGameStatus_; }
+
 	//開始しているか
-	bool MiniGameTime::IsStart() { return isStart_; }
+	bool MiniGameTime::IsPlay() { return (miniGameStatus_ == MiniGameStatus::PLAY); }
+
+	//距離を設定
+	void SetResultDis(const int& dis) { resultDis_ = dis; }
 }

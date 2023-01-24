@@ -11,6 +11,7 @@
 #include "Manager/GameManager/GameManager.h"
 #include "Manager/EffectManager/PlayerEffectManager/PlayerEffectManager.h"
 #include "Block/Block.h"
+#include "MiniGameTime.h"
 #include <algorithm>
 #include <iostream>
 
@@ -529,6 +530,10 @@ void Player::StageRayCast()
             //タイムをロックする
             Time::Lock();
 
+            //ミニゲームの状態をEND状態にする
+            MiniGameTime::SetMiniGameStatus(MiniGameStatus::END);
+            MiniGameTime::SetResultDis(transform_.position_.z);
+
             //エフェクト
             PlayerEffectManager::DieEffect(transform_.position_, vNormal_);
 
@@ -718,7 +723,7 @@ void Player::Die()
 
         //フェードのステータスがFADE_OUT状態じゃなかったら
         if (GameManager::GetStatus() != FADE_OUT)
-            GameManager::SetStatus(FADE_OUT);
+            GameManager::SetStatus(FADE_OUT,"Image/Fade/BaseFade.png");
     }
 }
 
@@ -748,6 +753,10 @@ void Player::OnCollision(GameObject* pTarget)
 
         //タイムをロックする
         Time::Lock();
+
+        //ミニゲームの状態をEND状態にする
+        MiniGameTime::SetMiniGameStatus(MiniGameStatus::END);
+        MiniGameTime::SetResultDis(transform_.position_.z);
 
         //エフェクト
         PlayerEffectManager::DieEffect(transform_.position_, vNormal_);

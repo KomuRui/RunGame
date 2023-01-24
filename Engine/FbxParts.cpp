@@ -2,7 +2,9 @@
 #include "Fbx.h"
 #include "Global.h"
 #include "Direct3D.h"
+#include "ImGuiSet.h"
 #include "Camera.h"
+#include "../Manager/GameManager/GameManager.h"
 
 //コンストラクタ
 FbxParts::FbxParts():
@@ -465,6 +467,16 @@ void FbxParts::Draw(Transform& transform)
 		cb.isDiffuse = diffuse;
 		cb.isAmbient = ambient;
 		cb.isBrightness = brightness;
+		
+		if (GameManager::GetpPlayer() != nullptr)
+		{
+			cb.playerPos = { GameManager::GetpPlayer()->GetPosition().x,GameManager::GetpPlayer()->GetPosition().y,GameManager::GetpPlayer()->GetPosition().z,0 };
+			ImGuiSet::DebugLog("pos", GameManager::GetpPlayer()->GetPosition());
+		}
+		else
+			cb.playerPos = {0,0,0,0};
+
+
 
 		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのリソースアクセスを一時止める
 		memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));		// リソースへ値を送る

@@ -22,6 +22,7 @@ cbuffer global
 	float4      g_vecLightPosition;   // ライトの位置
 	float4      g_LightPosition[15];  // ライトの個数分の位置
 	float4      g_LightIntensity[15]; // ライトの個数分の強さ
+	float4      g_playerPos;          // プレイヤーのポジション
 	float		g_shuniness;		  // ハイライトの強さ（テカリ具合）
 	bool		g_isTexture;		  // テクスチャ貼ってあるかどうか
 	float 		g_isDiffuse;		  // 透明にするか
@@ -40,6 +41,7 @@ struct VS_OUT
 	float4 eye	  : TEXCOORD1;		//視線
 	float4 norw   : TEXCOORD3;      //ワールドマトリクスだけかけた法線
 	float4 posw   : TEXCOORD4;      //ワールドマトリクスだけかけた位置
+	float4 npos   : TEXCOORD5;
 };
 
 //───────────────────────────────────────
@@ -50,6 +52,7 @@ VS_OUT VS(float4 pos : POSITION, float4 Normal : NORMAL, float2 Uv : TEXCOORD)
 	//ピクセルシェーダーへ渡す情報
 	VS_OUT outData;
 
+	outData.npos = pos;
 	outData.posw = mul(pos, g_matWorld);
 
 	//ローカル座標に、ワールド・ビュー・プロジェクション行列をかけて
@@ -167,6 +170,18 @@ float4 PS(VS_OUT inData) : SV_Target
 	//最終的な色
 	float4 color = diffuse * shade + diffuse * ambient + speculer;
 	color.a = g_isDiffuse;
+
+	float x = (inData.npos.r - g_playerPos.r);
+	float y = (inData.npos.g - g_playerPos.g);
+	float z = (inData.npos.b - g_playerPos.b);
+
+	float dis = (x * x) + (y * y) + (z * z);
+
+	if ((100 * 100) < dis)
+	{
+		float a = (dis / (200 * 200));
+		color += float4(-0.5, -0.5, -0.5, 1) * a;
+	}
 
 	return color;
 }

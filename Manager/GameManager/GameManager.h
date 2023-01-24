@@ -83,7 +83,7 @@ namespace GameManager
 	/// 状態をセット
 	/// </summary>
 	/// <param name="status">セットしたい状態</param>
-	void SetStatus(int status);
+	void SetStatus(int status, std::string filename = "");
 
 	/// <summary>
 	/// 現在の状態を取得

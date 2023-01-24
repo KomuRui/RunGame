@@ -42,6 +42,7 @@ class FbxParts
 		XMFLOAT4 lightPosition;				 //ライトの位置
 		XMFLOAT4 pos[LIGHT_TOTAL_NUM];       //ライトの数分の位置
 		XMFLOAT4 intensity[LIGHT_TOTAL_NUM]; //ライトの数分の強さ
+		XMFLOAT4 playerPos;                  //プレイヤーのポジション
 		FLOAT	 shininess;					 //ハイライトの強さ（MayaのCosinePower）
 		BOOL	 isTexture;					 //テクスチャの有無 
 		FLOAT    isDiffuse;					 //透明にするかどうか

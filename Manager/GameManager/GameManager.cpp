@@ -116,8 +116,11 @@ namespace GameManager
 				pComboNumText_->NumberDraw(numberPositiom_.x, numberPositiom_.y, ComboTotalCount_, scale_);
 			}
 
-			//ミニゲーム時間の表示
-			MiniGameTime::Draw();
+			//ミニゲームが終わっていないのなら
+			if (MiniGameTime::GetMiniGameStatus() != MiniGameStatus::END)
+			{
+				MiniGameTime::Draw();
+			}
 
 			//コインの取得数の表示
 			CoinManager::Draw();
@@ -125,6 +128,12 @@ namespace GameManager
 
 		//フェード用の描画
 		FadeDraw();
+
+		//ミニゲームが終わったなら
+		if (MiniGameTime::GetMiniGameStatus() == MiniGameStatus::END)
+		{
+			MiniGameTime::Draw();
+		}
 	}
 
 	///////////////////////////////セットゲット関数//////////////////////////////////
@@ -148,9 +157,17 @@ namespace GameManager
 	SceneManager* GameManager::GetpSceneManager() { return pSceneManager_; }
 
 	//状態セット
-	void GameManager::SetStatus(int status)
+	void GameManager::SetStatus(int status, std::string filename)
 	{
-		FadeStatus_ = status;
+		//もしファイルネームが空じゃなければ
+		if (filename != "")
+		{
+			ARGUMENT_INITIALIZE(fadeImage_[GetpSceneManager()->GetSceneId()], filename);
+			pSprite_[GetpSceneManager()->GetSceneId()]->Load(fadeImage_[GetpSceneManager()->GetSceneId()]);
+		}
+
+		//フェードの状態を変更
+		ARGUMENT_INITIALIZE(FadeStatus_,status);
 
 		//状態によって分ける
 		switch (FadeStatus_)
