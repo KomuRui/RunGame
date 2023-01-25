@@ -58,7 +58,7 @@ void PigEnemy::EnemyChildStartUpdate()
 	///////////////当たり判定設定///////////////////
 
 	//玉
-	SphereCollider* collision = new SphereCollider(XMFLOAT3(ZERO, XMVectorGetY(XMVector3Normalize(vNormal_)) * 1, ZERO), COLLIDER_SIZE);
+	collision = new SphereCollider(XMFLOAT3(ZERO, XMVectorGetY(XMVector3Normalize(vNormal_)) * 1, ZERO), COLLIDER_SIZE);
 	AddCollider(collision);
 
 	///////////////アニメーション///////////////////
@@ -170,6 +170,8 @@ void PigEnemy::Die()
 
 	//死ぬエフェクト
 	EnemyEffectManager::DieEffect(effectNum_, transform_.position_, up_);
+
+	KillCollider(collision);
 
 	//描画しない
 	Invisible();

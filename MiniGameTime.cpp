@@ -75,11 +75,28 @@ namespace MiniGameTime
 		wchar_t wtext[FILENAME_MAX];
 		std::string text;
 
-		//10秒以上なら
-		if (Time::GetTimef() / 10.0f >= 0)
-			text = float_to_string(Time::GetTimef(), 3) + "/30.000";
+		if (Time::GetTimef() < 30.0f)
+		{
+			//10秒以上なら
+			if (Time::GetTimef() / 10.0f >= 0)
+				text = float_to_string(Time::GetTimef(), 3) + "/30.000";
+			else
+				text = "0" + float_to_string(Time::GetTimef(), 3) + "/30.000";
+		}
 		else
-			text = "0" + float_to_string(Time::GetTimef(), 3) + "/30.000";
+		{
+			text = "30.000/30.000";
+			miniGameStatus_ = MiniGameStatus::END;
+
+			//フェードのステータスがFADE_OUT状態じゃなかったら
+			if (GameManager::GetStatus() != FADE_OUT)
+				GameManager::SetStatus(FADE_OUT, "Image/Fade/BaseFade.png");
+
+			//タイムをロックする
+			Time::Lock();
+
+			resultDis_ = GameManager::GetpPlayer()->GetPosition().z;
+		}
 
 		//ワイド文字列に変換
 		size_t ret;

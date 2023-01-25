@@ -8,6 +8,8 @@
 class PigEnemy : public Enemy
 {
 
+	SphereCollider* collision;
+
 	///////////////エフェクト///////////////////
 
 	//エフェクトの番号

@@ -66,8 +66,8 @@ VS_OUT VS(float4 pos : POSITION, float4 Normal : NORMAL, float2 Uv : TEXCOORD)
 	outData.norw = mul(Normal, g_matWorld);
 
 	//視線ベクトル（ハイライトの計算に必要
-	float4 worldPos = mul(pos, g_matWorld);					//ローカル座標にワールド行列をかけてワールド座標へ
-	outData.eye = normalize(g_vecCameraPosition - worldPos);	//視点から頂点位置を引き算し視線を求めてピクセルシェーダーへ
+	float4 worldPos = mul(pos, g_matWorld);			//ローカル座標にワールド行列をかけてワールド座標へ
+	outData.eye = g_vecCameraPosition - worldPos;	//視点から頂点位置を引き算し視線を求めてピクセルシェーダーへ
 
 	//UV「座標
 	outData.uv = Uv;	//そのままピクセルシェーダーへ
@@ -138,6 +138,9 @@ float4 PS(VS_OUT inData) : SV_Target
 	float4 d = float4(sumDir.x, sumDir.y, sumDir.z, 0);
 
 	float4 diffuse;
+
+
+
 	//テクスチャ有無
 	if (g_isTexture == true)
 	{
@@ -162,7 +165,7 @@ float4 PS(VS_OUT inData) : SV_Target
 		if (g_vecSpeculer.a != 0)	//スペキュラーの情報があれば
 		{
 			float4 R = reflect(d, inData.normal);			//正反射ベクトル
-			speculer = pow(saturate(dot(R, inData.eye)), g_shuniness) * g_vecSpeculer;	//ハイライトを求める
+			speculer = pow(saturate(dot(R, normalize(inData.eye))), g_shuniness) * g_vecSpeculer;	//ハイライトを求める
 		}
 
 	}
@@ -171,17 +174,13 @@ float4 PS(VS_OUT inData) : SV_Target
 	float4 color = diffuse * shade + diffuse * ambient + speculer;
 	color.a = g_isDiffuse;
 
-	float x = (inData.npos.r - g_playerPos.r);
-	float y = (inData.npos.g - g_playerPos.g);
-	float z = (inData.npos.b - g_playerPos.b);
+	float len2 = length(inData.eye);
 
-	float dis = (x * x) + (y * y) + (z * z);
-
-	if ((100 * 100) < dis)
+	if (50 < len2)
 	{
-		float a = (dis / (200 * 200));
-		color += float4(-0.5, -0.5, -0.5, 1) * a;
+		float a = (50 / len2);
+		color = float4(color.r * a, color.g * a, color.b * a, 1);
 	}
-
+	
 	return color;
 }

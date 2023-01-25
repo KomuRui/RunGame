@@ -6,6 +6,7 @@
 #include "Block/NormalBlock.h"
 #include "Block/BrickBlock.h"
 #include "MiniGameTime.h"
+#include "Engine/Time.h"
 #include "Manager/GameManager/GameManager.h"
 
 //定数
@@ -55,7 +56,7 @@ void SetObject::Update()
     if (GameManager::GetpPlayer() == nullptr) return;
 
     //ミニゲームがスタートしているかつPlayerが死んでいないのならオブジェクト生成
-    if (MiniGameTime::IsPlay() && !GameManager::GetpPlayer()->isDie())
+    if (MiniGameTime::IsPlay() && !GameManager::GetpPlayer()->isDie() && Time::GetTimef() < 26.0f)
         ObjectGeneration();
 
     //Zの位置更新
